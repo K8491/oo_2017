@@ -4,6 +4,7 @@
  *K8491 - Kaijanniemi 9.1.2017 
  * Testi ohjelmia ja muuta
  * Toinen muutos
+ * // jos on sama nimi avaruus esim projektien valilla pystyy viitata ohjelmassa ja eri nimiavaruuksia "using"
  */
 
 namespace hello
@@ -129,29 +130,33 @@ namespace hello
 
                 // tulostetaan parhaat rivit (top 5) ja kaikki paa voitot myos
                 // tarkistetaan yli 4 oik rajattu 5 parhaaseen
-                    for (int i = 0; i < 40; i++) //kaydaan lapi ja otetaan talteen
+                for (int y = 0; y < 41; y++)
+                {
+                    for (int i = 0; i < 5; i++) //kaydaan lapi ja otetaan talteen
                     {
 
-                        if (hits[i] == j && i<=5)
+                        if (hits[i] == j || hits[i] ==7)
                         {
-                            if (hits[lottoLines + i]< hits[i])
-                            hits[lottoLines + i] = hits[i];
+                            if (hits[lottoLines + i] < hits[i])
+                                hits[lottoLines + i] = hits[i];
                         }
-                }
-                   
-                
+                    }
 
+                    if (j > 3)
+                    {
+                        j--;
+                    }
+                }
+               
 
             } // sarja lotto paattyyy
               // top 5 tulostus
               //  Console.WriteLine("sarja {0} oikein {1} ", lottoLines, hits[a]); 
+            Console.WriteLine("Top5");
             for (int i = 1; i < 5; i++)
             {
-                if (hits[lottoLines + i] > 0)
-                {
-                    Console.WriteLine("Top {0} ",i, hits[lottoLines + i]);
-                    
-                }
+                    Console.WriteLine("Oikein  {0} ", hits[lottoLines + i]); 
+                
             }
         }
 
