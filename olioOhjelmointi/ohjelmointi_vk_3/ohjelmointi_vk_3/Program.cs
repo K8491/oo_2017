@@ -58,7 +58,7 @@ namespace ohjelmointi.VK3
             Console.WriteLine("Kiuas on paalla {0}",kiuas.OnkoPaalla);
             Console.WriteLine("Kiukaan lampotila on {0}", kiuas.Lampotila);
         }
-        // fukken pesukone
+        // teht2 pesukone
         static void TestaaPesukone()
         {
             //luodaan kiuas olio
