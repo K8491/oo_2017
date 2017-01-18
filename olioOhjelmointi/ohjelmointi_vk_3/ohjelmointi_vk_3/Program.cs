@@ -35,6 +35,13 @@ namespace ohjelmointi.VK3
                         TestaaKiuas();
                         break;
                     }
+                case 2:
+                    {
+                        Console.Title = "Tehtava 2";
+                        TestaaPesukone();
+                        break;
+                    }
+
             }
         }
 
@@ -50,10 +57,30 @@ namespace ohjelmointi.VK3
             //näytetään konsolilla
             Console.WriteLine("Kiuas on paalla {0}",kiuas.OnkoPaalla);
             Console.WriteLine("Kiukaan lampotila on {0}", kiuas.Lampotila);
-            Console.WriteLine("Kiukaan kosteus on {0}", kiuas.Kosteus);
-            // mitä tapahtuu jos kosteus menee yli rajojen
-            kiuas.Kosteus = 101;
-            Console.WriteLine("Kiukaan kosteus on {0}", kiuas.Kosteus);
+        }
+        // fukken pesukone
+        static void TestaaPesukone()
+        {
+            //luodaan kiuas olio
+            Pesukone pesukone = new Pesukone();
+            //pesukoneen kaaoottiset tulostukset
+            pesukone.OnkoPaalla = true;
+            pesukone.VedenLampo = 40; //C
+            pesukone.vesi = 10.3F; // L
+            //näytetään konsolilla
+            Console.WriteLine("Pesukone on paalla {0}", pesukone.OnkoPaalla);
+            Console.WriteLine("Pesukonessa  on vetta {0:F2} L", pesukone.vesi);
+            Console.WriteLine("Pesukoneen vedet ovat {0} C", pesukone.VedenLampo);
+
+            // muutetaan tietoja
+            Console.WriteLine("Pesukone syottaa vetta 4 L");
+            pesukone.vesi = pesukone.vesi +4;
+         Console.WriteLine("Pesukoneessa on nyt {0} L", pesukone.vesi);
+
+            // lampo muuttuu
+            pesukone.VedenLampo = 44;
+            Console.WriteLine("Kuumaa vetta {0} C", pesukone.VedenLampo);
+
         }
     }
 }
