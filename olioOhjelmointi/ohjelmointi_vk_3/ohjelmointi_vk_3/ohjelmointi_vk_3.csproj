@@ -47,7 +47,9 @@
     <Compile Include="Pesukone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saadin.cs" />
     <Compile Include="Televisio.cs" />
+    <Compile Include="Vahvistin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
