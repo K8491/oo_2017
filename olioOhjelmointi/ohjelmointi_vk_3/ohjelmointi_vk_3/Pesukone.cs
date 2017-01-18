@@ -11,7 +11,7 @@ namespace ohjelmointi.VK3
 
         // properties // ominaisuudet
         public bool OnkoPaalla { get; set; } // prop <sarkain><sarkain>... 
-        public float vesi { get;
+        public float Vesi { get;
             set;
         }
         float vedenLampo;
