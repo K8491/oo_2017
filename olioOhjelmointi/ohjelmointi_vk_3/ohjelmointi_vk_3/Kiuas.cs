@@ -19,7 +19,7 @@ namespace ohjelmointi.VK3
             get{ return kosteus;}
 
             set {kosteus =value;
-            if (kosteus >0 || kosteus > 100)
+            if (kosteus <0 || kosteus > 100)
                 {
                     kosteus = 0;
                 }

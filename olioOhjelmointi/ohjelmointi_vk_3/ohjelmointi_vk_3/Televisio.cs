@@ -12,7 +12,7 @@ namespace ohjelmointi.VK3
     {
         // properties // ominaisuudet
         public bool OnkoPaalla { get; set; } // prop <sarkain><sarkain>... 
-        int Kanava;
+        int kanava;
         float aani;
         public float Aani
         {
@@ -27,7 +27,7 @@ namespace ohjelmointi.VK3
             }
         }
 
-        public int kanava {
+        public int Kanava {
             get { return kanava; }
             set {
                 kanava = value;

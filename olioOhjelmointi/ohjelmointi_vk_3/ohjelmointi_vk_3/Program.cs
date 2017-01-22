@@ -15,6 +15,7 @@ namespace ohjelmointi.VK3
 
         static void Valikko()
         {
+            Console.Clear();
             int luku = 0;
             Console.Title = "WHHHAAAAT??!!";
             Console.WriteLine("Viikko 3 tehtavat");
@@ -22,11 +23,13 @@ namespace ohjelmointi.VK3
             Console.WriteLine("Kiuas tehtava (nro 1)");
             Console.WriteLine("Pesukone tehtava (nro 2)");
             Console.WriteLine("Televisio tehtava (nro 3)");
-            Console.WriteLine("Hissi tehtava (nro 8)");
-            Console.WriteLine("vahvistin tehtava (nro 9)");
-            Console.WriteLine("Tietojen käsittely tehtava (nro 10)");
-            Console.WriteLine("Ajoneuvojen käsittely tehtava (nro 11)");
-       
+            Console.WriteLine("TT1 Hissi tehtava (nro 8)");
+            Console.WriteLine("TT2 vahvistin tehtava (nro 9)");
+            Console.WriteLine("TT3 Tietojen käsittely tehtava (nro 10)");
+            Console.WriteLine("TT4 Ajoneuvojen käsittely tehtava (nro 11)");
+            Console.WriteLine("KT5 Radio tehtava (nro 12)");
+            Console.WriteLine("KT6 Hylly tehtava (nro 13)");
+            Console.WriteLine("KT7 (nro 14)");
             luku = Convert.ToInt32(Console.ReadLine());
             switch (luku)
             {
@@ -77,19 +80,27 @@ namespace ohjelmointi.VK3
                 case 11:
                     {
                         Console.Title = "Tehtava 11";
-                        TestaaRadio();
+                        TestaaAjoneuvojenKasittely();
                         break;
                     }
                 case 12:
                     {
                         Console.Title = "Tehtava 12";
-                        TestaaHylly();
+                        TestaaRadio();
                         break;
                     }
                 case 13:
                     {
                         Console.Title = "Tehtava 13";
-                        //TestaaOhjelmoijanPinnaa();
+
+                       TestaaHylly();
+                        break;
+                    }
+                case 14:
+                    {
+                        Console.Title = "Tehtava 14";
+
+                        TestaaPinnaa();
                         break;
                     }
 
@@ -140,10 +151,10 @@ namespace ohjelmointi.VK3
             Televisio televiso = new Televisio();
 
             televiso.OnkoPaalla = true;
-            televiso.kanava = 2;
+            televiso.Kanava = 2;
             televiso.Aani = 30;
 
-            Console.WriteLine("Televisio on paalla ja kanava {0} nakyy ", televiso.kanava);
+            Console.WriteLine("Televisio on paalla ja kanava {0} nakyy ", televiso.Kanava);
             Console.WriteLine("Televisiossa on aanet ja ne kuuluvat {0} lujaa", televiso.Aani);
 
         }
@@ -216,29 +227,170 @@ namespace ohjelmointi.VK3
         static void TestaaVahvistin()
         {
             // tehtävä 2
+            /*
+             * Tehtävänäsi on ohjelmoida yksinkertaisen 
+             * vahvistimen toiminta, jolla voidaan kontrolloida
+             *  äänenvoimakkuutta välillä 0-100.
+             *  Toteuta Vahvistin-luokka ja tee pääohjelma,
+             *  jolla luot olion Vahvistin-luokasta.
+             *  Säädä ja kokeile vahvistinta eri äänenvoimakkuuksilla.
+             *  Käytä Vahvistin-luokassa get- ja set-aksessoreita.
+             *  get-aksessori palauttaa äänenvoimakkuuden ja
+             *  set-aksessori rajaa äänenvoimakkuuden arvoa.
+             * */
+             // Vahvistin luokka, olio vahvistin
+            Vahvistin vahvistin = new Vahvistin();
+            vahvistin.Aani = 10;
+            int ui = 1;
+            Console.WriteLine("Vahvistin on palla jos syottaa yli -100");
+            do
+            {
+                Console.Clear();
+                if (ui < 0)
+                {
+                    Console.WriteLine("Liian alhainen aani\n ei alta 0");
+                }
+                else if (ui > 100)
+                {
+                    Console.WriteLine("Liian korkea aani ei yli 100");
+                }
+                else
+                {
+
+                    if (vahvistin.Aani <= 10)
+                    {
+                        Console.WriteLine("Ei kuulu mitaan");
+                    }
+                    else if (vahvistin.Aani <= 30)
+                    {
+                        Console.WriteLine("Kuuluu huonosti");
+                    }
+                    else if (vahvistin.Aani <= 60)
+                    {
+                        Console.WriteLine("Kuuluu hyvin");
+                    }
+                    else if (vahvistin.Aani <= 100)
+                    {
+                        Console.WriteLine("Kuuluu Lujaa");
+                    }
+                }
+                Console.Write("Saada aanta {0} >",vahvistin.Aani);
+                ui =  Int32.Parse((Console.ReadLine()));
+                vahvistin.Aani = ui;
+               
+            } while (ui>-100);
+            Console.WriteLine("Vahvistin on pois paalta");
+            Valikko();
 
         }
         static void TestaaTietojenKasittely()
         {
             // tehtävä 3
 
+            Tiedot tiedot = new Tiedot("Kirsi Kernel","Teacher",1200);
+            PomonTiedot pomonTiedot = new PomonTiedot("Jussi Jurkka","Head of Institute", 9000,"Audi",5000);
+            Console.WriteLine("{0} {1} {2}",tiedot.Name , tiedot.Profession , tiedot.Salary);
+            Console.WriteLine("{0} {1} {2} {3} {4}",pomonTiedot.Name,pomonTiedot.Profession,pomonTiedot.Salary,pomonTiedot.Car,pomonTiedot.Bonus);
+
+
+            tiedot.Profession = " Principal Teacher";
+            tiedot.Salary = 2200;
+            Console.WriteLine("{0} {1} {2}",tiedot.Name, tiedot.Profession, tiedot.Salary);
+
+
+
         }
         static void TestaaAjoneuvojenKasittely()
         {
             // tehtävä 4
+            /*
 
+             */
+            Pyora pyora = new Pyora("Jopo","Street", 2016, "Blue", false,"");
+            Pyora pyora2 = new Pyora("Tunturi", "StreetPower", 2010, "Black", true, "Shimano");
+            Vene vene = new Vene("Suvi","S900",1990,"White", 3,"Row boat");
+            Vene vene2 = new Vene("Yamaha", "Model 1000", 2010, "Yellow", 5, "Motor boat");
+            Vene vene3 = new Vene("Puinen hirmu", "-", 1900, "Puinen", 2, "Kajaakki");
+
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", pyora.Nimi, pyora.Malli,pyora.Vuosimalli, pyora.Vari,pyora.Vaihteet,pyora.VaihteetNimi);
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", pyora2.Nimi, pyora2.Malli, pyora2.Vuosimalli, pyora2.Vari, pyora2.Vaihteet, pyora2.VaihteetNimi);
+
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene.Nimi, vene.Malli, vene.Vuosimalli, vene.Vari, vene.Paikkoja, vene.Tyyppi);
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene2.Nimi, vene2.Malli, vene2.Vuosimalli, vene2.Vari, vene2.Paikkoja, vene2.Tyyppi);
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene3.Nimi, vene3.Malli, vene3.Vuosimalli, vene3.Vari, vene3.Paikkoja, vene3.Tyyppi);
         }
         static void TestaaHylly()
         {
             // tehtävä 6
+            Console.WriteLine("Hyllyssa on monta esinetta");
+            Analogiset kirja = new Analogiset("Suuret seikkailut",2300,30,"Kovakantinen");
+            Analogiset kirja2 = new Analogiset("Maol", 2003, 12, "Paperinen");
+            Analogiset lehti = new Analogiset("Aku Ankka", 2004, 6, "Paperinen");
+            Digitaaliset cdlevy = new Digitaaliset("Iskelma Klassikot", 2000, 10, "CD-levy");
+            Analogiset vhs = new Analogiset("Rambo", 1980, 15, "VHS-kasetti");
+            Digitaaliset DVD = new Digitaaliset("Rambo", 1980, 5, "DVD-levy");
+            Digitaaliset Tabletti = new Digitaaliset("Fire HD8", 2016, 120, "Tabletti");
+            Console.WriteLine("Kirja {0} {1} {2}e Se oli sellanen {3}",kirja.Nimi, kirja.Vuosi, kirja.Hinta,kirja.Kannet);
+            Console.WriteLine("Laite {0} {1} {2}e Mika laite on{3}", Tabletti.Nimi, Tabletti.Vuosi, Tabletti.Hinta,Tabletti.SoitinTyyppi);
+            Console.WriteLine("CD-levy {0} {1} {2}e se on {3}", cdlevy.Nimi, cdlevy.Vuosi, cdlevy.Hinta, cdlevy.SoitinTyyppi);
 
         }
         static void TestaaRadio()
         {
             // tehtävä 5
+            Radio radio = new Radio();
+            Console.WriteLine("Radio on paalla " + radio.Paalla);
+
+            Console.WriteLine("Painetaan nappulaa radion kylessa");
+            radio.Paalla = (true);
+            Console.WriteLine("Radio on paalla " + radio.Paalla);
+
+            Console.WriteLine("Taajuus on "+radio.Taajuus);
+            Console.WriteLine("Kaannetaan nuppia");
+            Console.Read();
+            Console.Clear();
+            radio.Taajuus = 2100;
+            Console.WriteLine("Taajuus on {0:0.0} ", radio.Taajuus);
+            Console.WriteLine("Radiosta ei vielakaan kuulu mitaan\n lisataan aanta");
+            radio.Aani = 6;
+            Console.WriteLine("Aani on " + radio.Aani);
+
+            Console.WriteLine("Yli arvot (656 / 2106750)");
+            radio.Taajuus = 2106750;
+            radio.Aani = 656;
+            Console.WriteLine("Aani {0} /  Taajuus {1:0.0} ", radio.Aani , radio.Taajuus);
+
+            Console.WriteLine("Ali arvot (-656 / -2106750)");
+            radio.Taajuus = -2106750;
+            radio.Aani = -656;
+            Console.WriteLine("Aani {0} Taajuus {1:0.0} ", radio.Aani, radio.Taajuus);
+
 
         }
-        //muista tehdä 7
+        static void TestaaPinnaa()
+        {
+            //muista tehdä 7
+            Console.WriteLine("Testataan pinnaa, vasymysta ja opiskelija saattaa olla kipea");
+            // ei ole erikseen opettaja luokkaa, opettaja on vaan olio joka ei voi olla kipeana ;D
+            Jaksaminen opetta = new Jaksaminen(100, 0);
+            Opiskelija opiskelija = new Opiskelija(30, 30, false);
+
+            Console.WriteLine("Tunnilla opettajalla on ainakin {0} pinaa ja {1} vasymysta", opetta.Pinna, opetta.Vasymys);
+           Console.WriteLine("Koodia kirjittaessa opiskelija on  terve {0} ja han jaksaa mitavain koska hanen vasymys on vain {1} ja pinnaakin on viela {2}", opiskelija.OnkoTerve, opiskelija.Vasymys, opiskelija.Pinna);
+            Console.Read();
+            Console.Clear();
+            Console.WriteLine("Huonosta koulu menestyksesta johtuen opettajalta paloi 90 pinnaa");
+            opetta.Pinna -= 90;
+            opetta.Vasymys += 10;
+            Console.WriteLine("Tunnilla opettajalla on vain {0} pinaa ja {1} vasymysta", opetta.Pinna, opetta.Vasymys);
+            if (opetta.Pinna < 20)
+            {
+                Console.WriteLine("Juoskaa arvosanojenne edesta");
+            }
+
+        }
+
+
 
     }
 }
