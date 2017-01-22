@@ -1,0 +1,2 @@
+D:\K8491\tehtavia\bin\Debug\tehtavia.exe.config
+D:\K8491\tehtavia\obj\Debug\tehtavia.csprojResolveAssemblyReference.cache
