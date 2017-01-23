@@ -32,6 +32,8 @@ namespace ohjelmointi.VK4
  * Ruoka aineita pitää pystyä poistamaan ja lisäämään kaappiin
  * se ei saa olla täynnä, mutta jää kaapin ei tarvitse tietää onko se täynnä
  * 
+ * ruoka aineen määrä
+ * to string nimi (niin kuin videossa)
  * 
  */
 
