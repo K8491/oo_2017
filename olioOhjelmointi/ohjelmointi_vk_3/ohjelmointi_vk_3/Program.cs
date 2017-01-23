@@ -318,6 +318,10 @@ namespace ohjelmointi.VK3
             Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene.Nimi, vene.Malli, vene.Vuosimalli, vene.Vari, vene.Paikkoja, vene.Tyyppi);
             Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene2.Nimi, vene2.Malli, vene2.Vuosimalli, vene2.Vari, vene2.Paikkoja, vene2.Tyyppi);
             Console.WriteLine("{0} {1} {2} {3} {4} {5}", vene3.Nimi, vene3.Malli, vene3.Vuosimalli, vene3.Vari, vene3.Paikkoja, vene3.Tyyppi);
+            
+            //ei ole pakko kirjoittaa ylla olevaa, jos tekee alla olevalla tavalla
+            vene3.ToString();
+          
         }
         static void TestaaHylly()
         {
