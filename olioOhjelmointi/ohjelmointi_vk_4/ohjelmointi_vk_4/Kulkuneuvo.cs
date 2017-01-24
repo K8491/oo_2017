@@ -8,17 +8,16 @@ namespace ohjelmointi.VK4
 {
     class Kulkuneuvo
     {
-
     }
     class Rengas
     {
         public string Valmistaja { get; set; }
         public string Malli { get; set; }
         public string RengasKoko { get; set; }
-
+        
         public override string ToString()
         {
-            return "Renkaiden " + Malli + Valmistaja + RengasKoko;
+            return "Renkaiden " + Malli +" Valmistaja " + Valmistaja+ " Rengaskoko " + RengasKoko;
         }
     }
     class Auto
@@ -50,7 +49,8 @@ namespace ohjelmointi.VK4
 
         public override string ToString()
         {
-            string s = "autossa" + Nimi + "Malli" + Renkaat;
+            // ei tulosta auton nimeä tai mallia onnistuneesti
+            string s = " autossa " + Nimi + " Malli " + Malli + "\nrenkaat:";
             foreach (Rengas r in Renkaat)
             {
                 if (r != null) s += "\n-" + r.ToString();
