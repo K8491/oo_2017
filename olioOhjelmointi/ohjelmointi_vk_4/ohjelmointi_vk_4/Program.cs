@@ -48,7 +48,11 @@ namespace ohjelmointi.VK4
                         JaakaappiTehtava();
                         break;
                     }
-                   
+                case 3:
+                    {
+                        TestaaHenkiloRekisteri();
+                        break;
+                    }
             }
             Console.Read();
             Console.Clear();
@@ -81,16 +85,38 @@ namespace ohjelmointi.VK4
             auto2.LisaaRengas(tyre3);//2
             Console.WriteLine(auto2.ToString());
         }
+        
         static void JaakaappiTehtava()
         {
-
-            Kaappi kaappi = new Kaappi(makkara);
-            kaappi.LisaaTuote(makkara);
+/*
+            Kaappi kaappi = new Kaappi();
+            kaappi.LisaaTuote();
 
             Tuote makkara = new Tuote("Makkara",true,3);
             Console.WriteLine(makkara.Nimi+"  " +makkara.OnkoSyotava+"  "+makkara.tuoteMaara);
 
-            Console.WriteLine(kaappi.ToString());
+            Console.WriteLine(kaappi.ToString());*/
         }
+
+     static void TestaaHenkiloRekisteri()
+        {
+            /// <summary>
+            /// This class contains person properties
+            /// </summary>
+        }
+
+        class HenkiloRekisteri
+        {
+            // muutama testi henkilo
+            HenkiloRekisteri poppoo = new HenkiloRekisteri();
+            HenkiloRekisteri hlo = new HenkiloRekisteri { Etunimi = "Jack" }
+
+        foreach (Henkilo h in poppoo.Henkilolista)
+	{
+            Console.WriteLine();
+                // todo kysy hetu ja hae henkilö näytölle
+
+        }
+
     }
 }
