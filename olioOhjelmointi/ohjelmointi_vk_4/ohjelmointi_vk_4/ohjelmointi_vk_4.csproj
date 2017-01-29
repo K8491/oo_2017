@@ -46,6 +46,7 @@
     <Compile Include="HenkiloRekisteri.cs" />
     <Compile Include="Jaakaappi.cs" />
     <Compile Include="Kulkuneuvo.cs" />
+    <Compile Include="Levy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

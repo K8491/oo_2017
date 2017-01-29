@@ -19,6 +19,8 @@ namespace ohjelmointi.VK4
                 Console.WriteLine("Viikko 4 tehtavat");
                 Console.WriteLine("Rengas tehtava 1");
                 Console.WriteLine("Jaakaappi 2");
+                Console.WriteLine("Henkilorekisteri 3");
+                Console.WriteLine("CD-levy 4");
             luku = 0;
             try
             {
@@ -51,6 +53,11 @@ namespace ohjelmointi.VK4
                 case 3:
                     {
                         TestaaHenkiloRekisteri();
+                        break;
+                    }
+                case 4:
+                    {
+                        TestaaLevy();
                         break;
                     }
             }
@@ -104,19 +111,35 @@ namespace ohjelmointi.VK4
             /// This class contains person properties
             /// </summary>
         }
+        /* HLO rekisteri
+                class HenkiloRekisteri
+                {
+                    // muutama testi henkilo
+                    HenkiloRekisteri poppoo = new HenkiloRekisteri();
+                    HenkiloRekisteri hlo = new HenkiloRekisteri { Etunimi = "Jack" }
 
-        class HenkiloRekisteri
+                foreach (Henkilo h in poppoo.Henkilolista)
+            {
+                    Console.WriteLine();
+                        // todo kysy hetu ja hae henkilö näytölle
+
+                }
+                */
+
+        static void TestaaLevy()
         {
-            // muutama testi henkilo
-            HenkiloRekisteri poppoo = new HenkiloRekisteri();
-            HenkiloRekisteri hlo = new HenkiloRekisteri { Etunimi = "Jack" }
+            List<CD> levyt = new List<CD>();
+            // ois pitany teha biisesita lista niin ei tarvii uudestaan syottaa samaa montaa kertaa
+            levyt.Add(new CD { Artisti = "Maija Koo", Nimi = "Tulahdukset", Laulu = "Salamoita", Kesto = 4.4F });
+            levyt.Add(new CD { Artisti = "Maija Koo", Nimi = "Tulahdukset",Laulu="Tuuli ulvoo",Kesto=3.43F});
 
-        foreach (Henkilo h in poppoo.Henkilolista)
-	{
+            levyt.Add(new CD { Artisti = "Muumit", Nimi = "Laakson leiri laulut",Laulu="", Kesto = 1.11F });
+            levyt.Add(new CD { Artisti = "Muumit", Nimi = "Laakson leiri laulut", Kesto = 2.4F });
+
+            // tulostaa oliot listasta
+                levyt.ForEach(item => Console.Write(item + "\n"));
+
             Console.WriteLine();
-                // todo kysy hetu ja hae henkilö näytölle
-
         }
-
     }
 }
