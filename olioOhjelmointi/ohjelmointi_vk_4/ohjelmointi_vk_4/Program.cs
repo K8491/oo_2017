@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,62 +12,71 @@ namespace ohjelmointi.VK4
             static void Main(string[] args){
                 Valikko();
             }
-            static void Valikko()
+        static void Valikko()
         {
-                Console.Clear();
-                int luku = 0;
-                Console.Title = "VK4";
-                Console.WriteLine("Viikko 4 tehtavat");
-                Console.WriteLine("Rengas tehtava 1");
-                Console.WriteLine("Jaakaappi 2");
-                Console.WriteLine("Henkilorekisteri 3");
-                Console.WriteLine("CD-levy 4");
-            luku = 0;
+            Console.Clear();
+            string luku = "0";
+            Console.Title = "VK4";
+            Console.WriteLine("Viikko 4 tehtavat");
+            Console.WriteLine("Rengas tehtava 1");
+            Console.WriteLine("Jaakaappi 2");
+            Console.WriteLine("Henkilorekisteri 3");
+            Console.WriteLine("CD-levy 4");
+            Console.WriteLine("CD-levy 5");
+            luku = "0";
             try
             {
-                luku = Convert.ToInt32(Console.ReadLine());
+                luku = Convert.ToString(Console.ReadLine());
+                switch (luku)
+                {
+                    case "0":
+                        {
+                            Console.WriteLine("Viikko 4 tehtavat");
+                            break;
+                        }
+                    case "1":
+                        {
+                            RengasTehtava();
+                            break;
+                        }
+                    case "2":
+                        {
+                            JaakaappiTehtava();
+                            break;
+                        }
+                    case "3":
+                        {
+                            TestaaHenkiloRekisteri();
+                            break;
+                        }
+                    case "4":
+                        {
+                            TestaaLevy();
+                            break;
+                        }
+                    case "5":
+                        {
+                            TestaaEka();
+                            break;
+                        }
+                    case "6":
+                        {
+                            TestaaToka();
+                            break;
+                        }
+                }
+                Console.Read();
+                Console.Clear();
+                Valikko();
             }
-
             catch (Exception e)
             {
                 Console.WriteLine("Syota luku (int)", e);
-                luku = 0;
-                luku = Convert.ToInt32(Console.ReadLine());
+                //    luku = Convert.ToInt32(Console.ReadLine());
             }
-            switch (luku)
-            {
-                case 0:
-                    {
-                        Console.WriteLine("Viikko 4 tehtavat");
-                        break;
-                    }
-                case 1:
-                    {
-                        RengasTehtava();
-                        break;
-                    }
-                case 2:
-                    {
-                        JaakaappiTehtava();
-                        break;
-                    }
-                case 3:
-                    {
-                        TestaaHenkiloRekisteri();
-                        break;
-                    }
-                case 4:
-                    {
-                        TestaaLevy();
-                        break;
-                    }
-            }
-            Console.Read();
-            Console.Clear();
-            Valikko();
         }
 
-    static void RengasTehtava()
+            static void RengasTehtava()
         {
             Auto auto = new Auto("Porche","911",0,4);
             Rengas tyre1 = new Rengas { Valmistaja = "Nokia", Malli = "Hakkapeliitta", RengasKoko = "205R16" };
@@ -141,5 +151,53 @@ namespace ohjelmointi.VK4
 
             Console.WriteLine();
         }
-    }
+        static void TestaaEka()
+        {
+
+            //  Tehtävä 1 - Tiedostoon kirjoittaminen ja lukeminen
+            System.IO.StreamWriter outputFile = null;
+            try
+            {
+                string syote = null;
+                string syote2 = null;
+                outputFile = new System.IO.StreamWriter(@"z:\tmp\test.txt");
+                Console.WriteLine("Kirjoitas jotain tiedostoon");
+                // otetaan syote kayttajalta
+                do
+                {
+
+                  syote =  Convert.ToString(Console.ReadLine());
+                  syote2 += syote+"\n";
+ 
+                }while(!(syote == null || syote == "\n"||syote ==""));
+                //kirjotetaan (kirjoittaa paalle, eli ei saasta mita tiedostossa jo on
+                if (!(syote2 == null))
+                {
+                    outputFile.WriteLine("\n" +syote2);
+                    outputFile.Close();
+                }
+
+                //luetaan
+                string text = System.IO.File.ReadAllText(@"z:\tmp\test.txt");
+              System.Console.WriteLine("sisalto kohteesta tmp test"+ text);
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine("Some exception happened!");
+                Console.WriteLine(ex.Message); // Access to the path 'c:\test.file' is denied.
+            }
+            finally
+            {
+                // check for null because OpenWrite might have failed
+                if (outputFile != null)
+                {
+                    outputFile.Close();
+                }
+            }
+        }
+        static void TestaaToka()
+        {
+
+        }
+        }
 }
