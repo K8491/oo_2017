@@ -11,11 +11,11 @@ namespace ohjelmointi.VK4
     {
             static void Main(string[] args){
                 Valikko();
-            }
+        }
         static void Valikko()
         {
             Console.Clear();
-            string luku = "0";
+            int luku = 0;
             Console.Title = "VK4";
             Console.WriteLine("Viikko 4 tehtavat");
             Console.WriteLine("Rengas tehtava 1");
@@ -23,57 +23,59 @@ namespace ohjelmointi.VK4
             Console.WriteLine("Henkilorekisteri 3");
             Console.WriteLine("CD-levy 4");
             Console.WriteLine("CD-levy 5");
-            luku = "0";
+            luku = 0;
             try
             {
-                luku = Convert.ToString(Console.ReadLine());
+                luku = Convert.ToInt32(Console.ReadLine());
                 switch (luku)
                 {
-                    case "0":
+                    case 0:
                         {
                             Console.WriteLine("Viikko 4 tehtavat");
                             break;
                         }
-                    case "1":
+                        
+                    case 1:
                         {
                             RengasTehtava();
                             break;
                         }
-                    case "2":
+                    case 2:
                         {
                             JaakaappiTehtava();
                             break;
                         }
-                    case "3":
+                    case 3:
                         {
                             TestaaHenkiloRekisteri();
                             break;
                         }
-                    case "4":
+                    case 4:
                         {
                             TestaaLevy();
                             break;
                         }
-                    case "5":
+                    case 5:
                         {
                             TestaaEka();
                             break;
                         }
-                    case "6":
+                    case 6:
                         {
                             TestaaToka();
                             break;
                         }
                 }
-                Console.Read();
-                Console.Clear();
-                Valikko();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Syota luku (int)", e);
                 //    luku = Convert.ToInt32(Console.ReadLine());
+                Valikko();
             }
+            Console.Read();
+            Console.Clear();
+            Valikko();
         }
 
             static void RengasTehtava()
