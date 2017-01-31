@@ -22,7 +22,9 @@ namespace ohjelmointi.VK4
             Console.WriteLine("Jaakaappi 2");
             Console.WriteLine("Henkilorekisteri 3");
             Console.WriteLine("CD-levy 4");
-            Console.WriteLine("CD-levy 5");
+            Console.WriteLine("eka kt 5");
+            Console.WriteLine("toka kt 6");
+            Console.WriteLine("kolmas kt 7");
             luku = 0;
             try
             {
@@ -63,6 +65,11 @@ namespace ohjelmointi.VK4
                     case 6:
                         {
                             TestaaToka();
+                            break;
+                        }
+                    case 7:
+                        {
+                            TestaaKolmas();
                             break;
                         }
                 }
@@ -199,7 +206,118 @@ namespace ohjelmointi.VK4
         }
         static void TestaaToka()
         {
+            Console.WriteLine("Names in a file program");
+            try
+            {
+                string curFile = @"e:\temp\nimet.txt";
+                Console.WriteLine(File.Exists(curFile) ? "Avataan tiedostoa" : "Ei tiedostoa");
+
+                Console.WriteLine();
+
+             string text = System.IO.File.ReadAllText(@"e:\temp\nimet.txt");
+                string[] lines = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+                // System.Console.WriteLine("Contents of test.txt:\n" + text);
+                Array.Sort(lines);
+                System.Console.WriteLine("Taulukon pituus "+lines.Length+" nimea");
+                foreach (var l in lines.GroupBy (x=>x))
+                {
+                   Console.WriteLine("{0}: {1}", l.Key, l.Count());
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found (FileNotFoundException)");
+            }
+            finally
+            {
+                Console.Read();
+            }
+        }
+        static void TestaaKolmas()
+        {
+            Console.WriteLine("Anna lukuja");
+            System.IO.StreamWriter outputFile = null;
+            try
+            {   
+
+                // Console.WriteLine(File.Exists(@"e:\temp\numerot.txt") ? "Avataan tiedostoa" : "Ei tiedostoa");
+                // kayttaja syote
+                Console.WriteLine("Annan numero (int (1-100 tai double (5,4))");
+                string t;
+                int num1;
+                Double num2;
+                int ok=0;
+                do
+                {
+                    t = Console.ReadLine();
+                    ok = 0;
+              bool result= int.TryParse(t, out num1);
+                if (result==true)
+                {
+                    // tiedoston tarkistaminen
+                    if (!(File.Exists(@"e:\temp\numerot.txt")))
+                    {
+                        FileStream fs = File.Create(@"e:\temp\numerot.txt");
+                    }
+                        //outputFile = new System.IO.StreamWriter(@"e:\temp\numerot.txt");
+                        //outputFile.WriteLine(num1);
+                        File.AppendAllText(@"e:\temp\numerot.txt", num1 + Environment.NewLine);
+
+
+                        ok++;
+                }
+                // jos se nyt on auki niin ei tarvitse olla.
+                if (outputFile != null)
+                {
+                    outputFile.Close();
+                }
+
+                if (result == false)
+                {
+                    result = Double.TryParse(t, out num2);
+                    if (result == true)
+                    {
+                        // tiedoston tarkistaminen
+                        if (!(File.Exists(@"e:\temp\numerot2.txt")))
+                        {
+                            FileStream fs = File.Create(@"e:\temp\numerot2.txt");
+                        }
+                            //outputFile = new System.IO.StreamWriter(@"e:\temp\numerot2.txt");
+                            //outputFile.WriteLine(num2);
+                            File.AppendAllText(@"e:\temp\numerot2.txt", num2 + Environment.NewLine);
+                            ok++;
+                        }
+                    else
+                    {
+                        Console.WriteLine("ei pysty");
+                            ok--;
+                            break;
+                        }
+                }
+                    if (outputFile != null)
+                    {
+                        outputFile.Close();
+                    }
+                } while(ok>0);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found (FileNotFoundException)");
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("Some exception happened!");
+                Console.WriteLine(e.Message); // Access to the path 'c:\test.file' is denied.
+            }
+            finally
+            {
+                Console.Read();
+                if (outputFile != null)
+                {
+                    outputFile.Close();
+                }
+            }
 
         }
-        }
+    }
 }
