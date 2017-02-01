@@ -4,13 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ohjelmointi.VK4
 {
     class Program
     {
             static void Main(string[] args){
+            try
+            {
                 Valikko();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
         static void Valikko()
         {
@@ -22,9 +29,16 @@ namespace ohjelmointi.VK4
             Console.WriteLine("Jaakaappi 2");
             Console.WriteLine("Henkilorekisteri 3");
             Console.WriteLine("CD-levy 4");
-            Console.WriteLine("eka kt 5");
-            Console.WriteLine("toka kt 6");
-            Console.WriteLine("kolmas kt 7");
+            Console.WriteLine("eka kt1 5");
+            Console.WriteLine("toka kt2 6");
+            Console.WriteLine("kolmas kt3 7");
+            Console.Title = "VK5";
+            Console.WriteLine("kt1 8");
+            Console.WriteLine("kt2 9");
+            Console.WriteLine("kt3 10");
+            Console.WriteLine("kt4 11");
+            Console.WriteLine("kt5 12");
+            Console.WriteLine("kt6 13");
             luku = 0;
             try
             {
@@ -70,6 +84,36 @@ namespace ohjelmointi.VK4
                     case 7:
                         {
                             TestaaKolmas();
+                            break;
+                        }
+                    case 8:
+                        {
+                            TestaaNeljas();
+                            break;
+                        }
+                    case 9:
+                        {
+                            TestaaViides();
+                            break;
+                        }
+                    case 10:
+                        {
+                            TestaaKuudes();
+                            break;
+                        }
+                    case 11:
+                        {
+                            TestaaSeitsemas();
+                            break;
+                        }
+                    case 12:
+                        {
+                            TestaaKahdeksas();
+                            break;
+                        }
+                    case 13:
+                        {
+                            TestaaYhdeksas();
                             break;
                         }
                 }
@@ -209,12 +253,12 @@ namespace ohjelmointi.VK4
             Console.WriteLine("Names in a file program");
             try
             {
-                string curFile = @"e:\temp\nimet.txt";
+                string curFile = @"z:\temp\nimet.txt";
                 Console.WriteLine(File.Exists(curFile) ? "Avataan tiedostoa" : "Ei tiedostoa");
 
                 Console.WriteLine();
 
-             string text = System.IO.File.ReadAllText(@"e:\temp\nimet.txt");
+             string text = System.IO.File.ReadAllText(@"z:\temp\nimet.txt");
                 string[] lines = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
                 // System.Console.WriteLine("Contents of test.txt:\n" + text);
                 Array.Sort(lines);
@@ -238,7 +282,12 @@ namespace ohjelmointi.VK4
             Console.WriteLine("Anna lukuja");
             System.IO.StreamWriter outputFile = null;
             try
-            {   
+            {              
+               // jos se nyt on auki niin ei tarvitse olla.
+                if (outputFile != null)
+                {
+                    outputFile.Close();
+                }
 
                 // Console.WriteLine(File.Exists(@"e:\temp\numerot.txt") ? "Avataan tiedostoa" : "Ei tiedostoa");
                 // kayttaja syote
@@ -247,29 +296,30 @@ namespace ohjelmointi.VK4
                 int num1;
                 Double num2;
                 int ok=0;
+
+
                 do
                 {
                     t = Console.ReadLine();
                     ok = 0;
+
               bool result= int.TryParse(t, out num1);
                 if (result==true)
                 {
                     // tiedoston tarkistaminen
-                    if (!(File.Exists(@"e:\temp\numerot.txt")))
+                    if (!(File.Exists(@"z:\temp\numerot.txt")))
                     {
-                        FileStream fs = File.Create(@"e:\temp\numerot.txt");
+                        FileStream fs = File.Create(@"z:\temp\numerot.txt");
                     }
                         //outputFile = new System.IO.StreamWriter(@"e:\temp\numerot.txt");
                         //outputFile.WriteLine(num1);
-                        File.AppendAllText(@"e:\temp\numerot.txt", num1 + Environment.NewLine);
-
-
+                        File.AppendAllText(@"z:\temp\numerot.txt", num1 + Environment.NewLine);
+                        // jos se nyt on auki niin ei tarvitse olla.
+                        if (outputFile != null)
+                        {
+                            outputFile.Close();
+                        }
                         ok++;
-                }
-                // jos se nyt on auki niin ei tarvitse olla.
-                if (outputFile != null)
-                {
-                    outputFile.Close();
                 }
 
                 if (result == false)
@@ -278,13 +328,13 @@ namespace ohjelmointi.VK4
                     if (result == true)
                     {
                         // tiedoston tarkistaminen
-                        if (!(File.Exists(@"e:\temp\numerot2.txt")))
+                        if (!(File.Exists(@"z:\temp\numerot2.txt")))
                         {
-                            FileStream fs = File.Create(@"e:\temp\numerot2.txt");
-                        }
+                            FileStream fs = File.Create(@"z:\temp\numerot2.txt");
+                            }
                             //outputFile = new System.IO.StreamWriter(@"e:\temp\numerot2.txt");
                             //outputFile.WriteLine(num2);
-                            File.AppendAllText(@"e:\temp\numerot2.txt", num2 + Environment.NewLine);
+                            File.AppendAllText(@"z:\temp\numerot2.txt", num2 + Environment.NewLine);
                             ok++;
                         }
                     else
@@ -294,11 +344,13 @@ namespace ohjelmointi.VK4
                             break;
                         }
                 }
+
                     if (outputFile != null)
                     {
                         outputFile.Close();
                     }
                 } while(ok>0);
+
             }
             catch (FileNotFoundException)
             {
@@ -317,7 +369,115 @@ namespace ohjelmointi.VK4
                     outputFile.Close();
                 }
             }
+        }
+        
+        static void TestaaNeljas()
+        {
+            /*
+             * Toteuta Noppa-luokka siten, että noppaa voidaan heittää.
+             * Nopan tulee palauttaa satunnainen luku jokaisella heittokerralla.
+             * Toteuta pääohjelmassa nopan heittäminen.
+             * Kokeile ensin heittää noppaa kerran ja tulosta nopan luku.
+             * Toteuta tämän jälkeen ohjelma siten, että kysyt käyttäjältä heittojen määrän.
+             * Heitä noppaa ja tulosta heittojen lukujen keskiarvo.
+             */
 
+            /*Atribuutit
+             * int luku
+             * 
+             * METHODIT +return
+            * Noppalla on methodi HeitaNoppa
+            * => palauttaa arvon main ohjelmaan (rand)
+            * HeitaNoppaa kaytetaan mainista
+            * 
+            * Tulostetaan jokainen heitto
+            * sitten kysytaan kuinka monta heittoa
+            * 
+            * kirjataan ne tiedostoon
+            * lasketaan keskiarvo heitoille
+            * kokeillaan montako kertaa pitaa heittaa
+            * 
+            * Muuta..
+            * Enum, ja Millisekuntti tehokkuus
+            * nopan pitaa pyoria random aika ennen kuin tulostuu
+            * muista try catch
+            * muista ylikirjottaa to string
+            * *kohom* VS "AI"
+            * 
+            * Esimerkki:
+            *     
+How many times you want to throw a dice :  10000
+
+  Dice is now thrown 10000 times
+  - average is 3,4853
+  - 1 count is 1726
+  - 2 count is 1610
+  - 3 count is 1705
+  - 4 count is 1691
+  - 5 count is 1580
+  - 6 count is 1688
+            */
+            try
+            {
+                int i = 0;
+                Console.WriteLine("Noppa peli\n kuinka monta yritysta)");
+                 i = Console.Read();
+                Noppa noppa = new Noppa();
+                
+                //noppa peli
+                //lukee tiedostoa ei tee sita
+                string text = System.IO.File.ReadAllText(@"z:\temp\noppa.txt");
+                string[] lines = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+                //kirjottaa tiedostoon
+                File.AppendAllText(@"z:\temp\noppa.txt", i + Environment.NewLine);
+
+                // kaylapi, tulostaa keski arvon joku paiva...
+                System.Console.WriteLine("Taulukon pituus " + lines.Length);
+                foreach (var l in lines.GroupBy(x => x))
+                {
+                    Console.WriteLine("{0}: {1}", l.Key, l.Count());
+                }
+
+                // noppa rand
+                int b = 0;
+                int t;
+                Random rnd = new Random();
+                do
+                {
+                    t = rnd.Next(1, 6);
+                    b++;
+                    Console.WriteLine(t+"  Whoah");
+
+                } while (b < i);
+
+
+                Console.Read();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+       static void TestaaViides()
+        {
+            throw new NotImplementedException();
+        }
+        static void TestaaKuudes()
+        {
+            throw new NotImplementedException();
+        }
+        static void TestaaSeitsemas()
+        {
+            throw new NotImplementedException();
+        }
+        static void TestaaKahdeksas()
+        {
+            throw new NotImplementedException();
+        }
+        static void TestaaYhdeksas()
+        {
+            throw new NotImplementedException();
         }
     }
 }
