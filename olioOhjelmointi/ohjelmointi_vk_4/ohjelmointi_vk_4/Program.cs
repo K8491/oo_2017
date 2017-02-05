@@ -380,30 +380,6 @@ namespace ohjelmointi.VK4
              * Kokeile ensin heittää noppaa kerran ja tulosta nopan luku.
              * Toteuta tämän jälkeen ohjelma siten, että kysyt käyttäjältä heittojen määrän.
              * Heitä noppaa ja tulosta heittojen lukujen keskiarvo.
-             */
-
-            /*Atribuutit
-             * int luku
-             * 
-             * METHODIT +return
-            * Noppalla on methodi HeitaNoppa
-            * => palauttaa arvon main ohjelmaan (rand)
-            * HeitaNoppaa kaytetaan mainista
-            * 
-            * Tulostetaan jokainen heitto
-            * sitten kysytaan kuinka monta heittoa
-            * 
-            * kirjataan ne tiedostoon
-            * lasketaan keskiarvo heitoille
-            * kokeillaan montako kertaa pitaa heittaa
-            * 
-            * Muuta..
-            * Enum, ja Millisekuntti tehokkuus
-            * nopan pitaa pyoria random aika ennen kuin tulostuu
-            * muista try catch
-            * muista ylikirjottaa to string
-            * *kohom* VS "AI"
-            * 
             * Esimerkki:
             *     
 How many times you want to throw a dice :  10000
@@ -420,42 +396,42 @@ How many times you want to throw a dice :  10000
             try
             {
                 int i = 0;
-                Console.WriteLine("Noppa peli\n kuinka monta yritysta)");
-                 i = Console.Read();
-                Noppa noppa = new Noppa();
-                
-                //noppa peli
-                //lukee tiedostoa ei tee sita
-                string text = System.IO.File.ReadAllText(@"z:\temp\noppa.txt");
-                string[] lines = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
-                //kirjottaa tiedostoon
-                File.AppendAllText(@"z:\temp\noppa.txt", i + Environment.NewLine);
-
-                // kaylapi, tulostaa keski arvon joku paiva...
-                System.Console.WriteLine("Taulukon pituus " + lines.Length);
-                foreach (var l in lines.GroupBy(x => x))
-                {
-                    Console.WriteLine("{0}: {1}", l.Key, l.Count());
-                }
-
-                // noppa rand
-                int b = 0;
                 int t;
                 Random rnd = new Random();
+                int[] taulu = new int[7];
+                int b = 0;
+                double keskiArvo;
+
+                //heittojen maara kayttajalta
+                Console.WriteLine("Noppa peli\n kuinka monta yritysta)");
+                i = Convert.ToInt32(Console.ReadLine());
+
+                //noppa "kone"
                 do
                 {
-                    t = rnd.Next(1, 6);
-                    b++;
-                    Console.WriteLine(t+"  Whoah");
-
+                    t = rnd.Next(1, 7);
+                    taulu[t]++;
+                    ++b;
+                    Console.WriteLine(t);
                 } while (b < i);
 
-
+                //tulostukset
+                keskiArvo = taulu.Average();
+                Console.WriteLine("keskiarvo {0:F4}", keskiArvo);
+                Console.WriteLine("tulokset");
+                for (int l = 1; l < 7; l++)
+                {
+                    Console.WriteLine(l+" :"+taulu[l]);
+                }
                 Console.Read();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.ReadLine();
             }
         }
 

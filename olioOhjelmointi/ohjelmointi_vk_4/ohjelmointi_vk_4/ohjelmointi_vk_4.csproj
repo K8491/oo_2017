@@ -47,7 +47,6 @@
     <Compile Include="Jaakaappi.cs" />
     <Compile Include="Kulkuneuvo.cs" />
     <Compile Include="Levy.cs" />
-    <Compile Include="Noppa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
