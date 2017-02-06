@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yksikko", "yksikko\yksikko.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yksikkoTests", "yksikkoTests\yksikkoTests.csproj", "{BB537FFE-3440-486E-9FA1-6E7D07ED95B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpfhello", "wpfhello\wpfhello.csproj", "{30EEBE12-8512-41B8-92BD-4779124E1D73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BB537FFE-3440-486E-9FA1-6E7D07ED95B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB537FFE-3440-486E-9FA1-6E7D07ED95B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB537FFE-3440-486E-9FA1-6E7D07ED95B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EEBE12-8512-41B8-92BD-4779124E1D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EEBE12-8512-41B8-92BD-4779124E1D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EEBE12-8512-41B8-92BD-4779124E1D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EEBE12-8512-41B8-92BD-4779124E1D73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
