@@ -7,11 +7,22 @@
         mc:Ignorable="d"
         Title="Antti's First WPF App" Height="350" Width="525" FontSize="20">
     <Grid Background="#FF69A1B2">
-        <TextBox x:Name="textBox" Margin="31,22,0,230" TextWrapping="Wrap" Text="Anna nimesi" HorizontalAlignment="Left" Width="128"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="183,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="190" Width="223" FontSize="30" Text="" Background="#FFF9F7F7"/>
-        <Button x:Name="button1" Content="Auto" HorizontalAlignment="Left" Margin="31,126,0,0" VerticalAlignment="Top" Width="111" Click="button1_Click" Background="#FFFFB488"/>
-        <Button x:Name="button1_Copy" Content="Iso-Auto" HorizontalAlignment="Left" Margin="31,162,0,0" VerticalAlignment="Top" Width="111" Click="button1_Copy_Click" Background="#FFF7BB98"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="42,225,0,0" TextWrapping="Wrap" Text="#" FontSize="30" VerticalAlignment="Top" Height="68" Width="191"/>
+        <TextBox x:Name="textBox2" Margin="31,22,0,230" TextWrapping="Wrap" Text="0.00" HorizontalAlignment="Left" Width="128"/>
+        <Button x:Name="button3" Content="Auto" HorizontalAlignment="Left" Margin="31,126,0,0" VerticalAlignment="Top" Width="111" Click="button1_Click" Background="#FFFFB488"/>
+        <Button x:Name="button1_Copy1" Content="Iso-Auto" HorizontalAlignment="Left" Margin="31,162,0,0" VerticalAlignment="Top" Width="111" Click="button1_Copy_Click" Background="#FFF7BB98"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="45,227,0,0" TextWrapping="Wrap" Text="#" FontSize="30" VerticalAlignment="Top" Height="68" Width="191"/>
+        <Button x:Name="button4" Content="M" HorizontalAlignment="Left" Margin="31,90,0,0" VerticalAlignment="Top" Width="42" Height="24" Click="button_Click"/>
+        <Button x:Name="button_Copy1" Content=" €" HorizontalAlignment="Left" Margin="73,90,0,0" VerticalAlignment="Top" Width="42" Height="24" Click="button_Copy_Click"/>
+        <Label x:Name="label1" Content="Ikkunan leveys (mm)" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="28" Margin="209,47,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="128"/>
+        <Label x:Name="label_Copy2" Content="Ikkunan Korkeus (mm)" HorizontalAlignment="Left" Margin="199,77,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox3_1" HorizontalAlignment="Left" Height="28" Margin="209,114,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="128"/>
+        <Label x:Name="label_Copy3" Content="Karmipuun leveys (mm)" HorizontalAlignment="Left" Margin="199,133,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox3_2" HorizontalAlignment="Left" Height="28" Margin="209,170,0,0" TextWrapping="Wrap" Text="45" VerticalAlignment="Top" Width="128"/>
+        <Button x:Name="button5" Content="Laske" HorizontalAlignment="Left" Margin="209,212,0,0" VerticalAlignment="Top" Width="75" Click="button5_Click"/>
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="345,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ikkunan pinta"/><Run Text="-"/><Run Text="ala"/></TextBlock>
+        <TextBlock x:Name="textBlock3_1" HorizontalAlignment="Left" Margin="345,241,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Lasin"/><Run Text=" pinta"/><Run Text="-"/><Run Text="ala"/></TextBlock>
+        <TextBlock x:Name="textBlock3_2" HorizontalAlignment="Left" Margin="345,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Karmin piiri"/>
 
     </Grid>
 </Window>
