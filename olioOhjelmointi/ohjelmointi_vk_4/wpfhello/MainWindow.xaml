@@ -11,8 +11,8 @@
         <Button x:Name="button3" Content="Auto" HorizontalAlignment="Left" Margin="31,126,0,0" VerticalAlignment="Top" Width="111" Click="button1_Click" Background="#FFFFB488"/>
         <Button x:Name="button1_Copy1" Content="Iso-Auto" HorizontalAlignment="Left" Margin="31,162,0,0" VerticalAlignment="Top" Width="111" Click="button1_Copy_Click" Background="#FFF7BB98"/>
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="45,227,0,0" TextWrapping="Wrap" Text="#" FontSize="30" VerticalAlignment="Top" Height="68" Width="191"/>
-        <Button x:Name="button4" Content="M" HorizontalAlignment="Left" Margin="31,90,0,0" VerticalAlignment="Top" Width="42" Height="24" Click="button_Click"/>
-        <Button x:Name="button_Copy1" Content=" €" HorizontalAlignment="Left" Margin="73,90,0,0" VerticalAlignment="Top" Width="42" Height="24" Click="button_Copy_Click"/>
+        <Button x:Name="button4" Content="M" HorizontalAlignment="Left" Margin="31,90,0,0" VerticalAlignment="Top" Width="42" Height="31" Click="button_Click"/>
+        <Button x:Name="button_Copy1" Content=" €" HorizontalAlignment="Left" Margin="73,90,0,0" VerticalAlignment="Top" Width="36" Height="31" Click="button_Copy_Click"/>
         <Label x:Name="label1" Content="Ikkunan leveys (mm)" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="28" Margin="209,47,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="128"/>
         <Label x:Name="label_Copy2" Content="Ikkunan Korkeus (mm)" HorizontalAlignment="Left" Margin="199,77,0,0" VerticalAlignment="Top"/>
