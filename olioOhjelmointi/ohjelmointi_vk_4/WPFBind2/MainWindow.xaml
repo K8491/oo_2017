@@ -1,0 +1,42 @@
+﻿<Window x:Class="WPFBind2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFBind2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="158" Background="#FF75FF27">
+            <Label x:Name="label" Content="Binding to element:"/>
+            <TextBox x:Name="txttesti" Height="23" TextWrapping="Wrap" Text="Touch me!" Margin="0,0,66,0"/>
+            <Label x:Name="lbltesti" Content="{Binding Text, ElementName=txttesti}"/>
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="{Binding Text.Length, ElementName=txttesti}"/>
+        </StackPanel>
+        <StackPanel x:Name="spmiddle" HorizontalAlignment="Left" Height="299" Margin="173,10,0,0" VerticalAlignment="Top" Width="188" Background="{Binding DisplayMemberPath, ElementName=cmbcolors}">
+            <Label x:Name="label2" Content="Binding to static resource"/>
+            <ComboBox x:Name="cmbcolors">
+                <ComboBoxItem Content="AliceBlue" HorizontalAlignment="Left" Width="186"/>
+                <ComboBoxItem Content="Pink" HorizontalAlignment="Left" Width="186"/>
+                <ComboBoxItem Content="Tan" HorizontalAlignment="Left" Width="186"/>
+                <ComboBoxItem Content="LightSkyBlue" HorizontalAlignment="Left" Width="186"/>
+            </ComboBox>
+            <Separator Margin="15"></Separator>
+            <Label x:Name="label3" Content="Valitsit:"/>
+            <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text=" "/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="299" Margin="366,10,-5,0" VerticalAlignment="Top" Width="156" Background="#FFC492FF">
+            <Label x:Name="label4" Content="Binding to colletion"/>
+            <Button x:Name="button" Content="Bindaa oliokokoelmaani"/>
+            <Label x:Name="label5" Content="JYP Jyväskylä"/>
+            <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="textBox2" Height="23" TextWrapping="Wrap" Text="TextBox"/>
+            <ComboBox x:Name="movies"></ComboBox>
+            <Grid Height="100" Margin="10,0,0,0">
+                <Button x:Name="button1" Content="Button" Margin="10,10,81,70" />
+                <Button x:Name="button2" Content="Button" Margin="80,10,10,70" />
+                <Button x:Name="button3" Content="Button" HorizontalAlignment="Left" Margin="34,35,0,0" VerticalAlignment="Top" Width="89"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

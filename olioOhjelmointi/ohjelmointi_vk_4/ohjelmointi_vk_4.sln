@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KT2", "KT2\KT2.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KT3", "KT3\KT3.csproj", "{B81C298C-215E-4EE2-A871-954FDB974BDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFBind", "WPFBind\WPFBind.csproj", "{2916BFDE-E276-43C3-8DDE-7602893A0173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFBind2", "WPFBind2\WPFBind2.csproj", "{AF859DFF-D60D-4CE5-AA58-7DC08B0D4735}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{B81C298C-215E-4EE2-A871-954FDB974BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B81C298C-215E-4EE2-A871-954FDB974BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B81C298C-215E-4EE2-A871-954FDB974BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2916BFDE-E276-43C3-8DDE-7602893A0173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2916BFDE-E276-43C3-8DDE-7602893A0173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2916BFDE-E276-43C3-8DDE-7602893A0173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2916BFDE-E276-43C3-8DDE-7602893A0173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF859DFF-D60D-4CE5-AA58-7DC08B0D4735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF859DFF-D60D-4CE5-AA58-7DC08B0D4735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF859DFF-D60D-4CE5-AA58-7DC08B0D4735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF859DFF-D60D-4CE5-AA58-7DC08B0D4735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
