@@ -15,6 +15,7 @@
                 <TextBox x:Name="txtFirstName" Width="150" />
                 <TextBox x:Name="txtLastName" Width="150" />
                 <Button x:Name="btnAdd" Content="Lisaa" Width="150" Click="btnAdd_Click" />
+           
             </StackPanel>
         </StackPanel>
     </Grid>
