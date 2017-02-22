@@ -34,9 +34,9 @@ namespace peli
         {
             // jos pelaaja on jo olemassa kysytaan salasanaa.
             //  passwordBox.Visibility = Visibility.Visible;
-            PeliPaalla newwindow = PeliPaalla;
-            var newWindow = new MyNewWindow();
-            newWindow.Show();
+            PeliPaalla PI2 = new PeliPaalla();
+            PI2.Show();
+            this.Close();
         }
     }
 }
