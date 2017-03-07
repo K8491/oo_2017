@@ -24,7 +24,7 @@
             <Label x:Name="label2_Copy3" Content="palkka" Grid.Column="1" HorizontalAlignment="Left" Margin="5,190,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="textBox_Copy3" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged"/>
             <Button x:Name="button" Content="Hae tyontekijat" Grid.Column="2" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="173" Click="button_Click"/>
-            <Button x:Name="button1" Content="Tyhjenna" Grid.Column="2" HorizontalAlignment="Left" Margin="0,21,0,0" VerticalAlignment="Top" Width="173"/>
+            <Button x:Name="button1" Content="Tyhjenna" Grid.Column="2" HorizontalAlignment="Left" Margin="0,21,0,0" VerticalAlignment="Top" Width="173" Click="button1_Click"/>
             <ListBox x:Name="listBox" HorizontalAlignment="Left"   Height="266" VerticalAlignment="Top" Width="162"/>
         </Grid>
         <Label x:Name="label" Content="Tyontekijan tiedot" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="152" Height="26"/>

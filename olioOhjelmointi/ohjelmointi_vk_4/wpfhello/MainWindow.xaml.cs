@@ -37,7 +37,7 @@ namespace wpfhello
         private void button1_Copy_Click(object sender, RoutedEventArgs e)
         {
             // kutsutaan nakyviin Tiedoksi ikkuna
-            //About tiedoksiUusi = new About();
+            About tiedoksiUusi = new About();
             // tiedoksiUusi.ShowDialog();
             textBlock2.Text = " " + (t) + " " + (++i);
         }

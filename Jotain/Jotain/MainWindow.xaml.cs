@@ -49,9 +49,10 @@ namespace jotain
             // palkka textBox_Copy3
             try
             {
+                // ois pitany kaytaa observable collectionia
                 Tyontekija tnhkj = new Tyontekija();
                 List<Tyontekija> tnhkjLista = new List<Tyontekija>();
-
+                // Text="{Binding Etunimi}"??
                 // tnhkj.Etunimi, tnhkj.Sukunimi, tnhkj.TTNumero, tnhkj.Nimike, tnhkj.Palkka
                 tnhkj.Etunimi = textBox.Text;
                 tnhkj.Sukunimi = textBox_Copy.Text;
@@ -76,9 +77,22 @@ namespace jotain
 
         }
 
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+               
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
     public class Henkilo
     {
+        // pitaisi olla abstracti luokka
         public string SOTU { get; set; }
         public string Etunimi { get; set; }
         public string Sukunimi { get; set; }
