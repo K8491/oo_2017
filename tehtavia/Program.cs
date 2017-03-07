@@ -739,8 +739,23 @@ namespace tehtavia
                 }
                 Console.WriteLine("to string");
                 elaimet.ToString();
+                Console.WriteLine("Haukutaan 5 kertaa");
+
+                koira.Hakutaan(5);
+                koira2.Hakutaan(3);
+
+                foreach (Elain elain in elaimet)
+                {
+                    Console.WriteLine(elain);
+                    for (int i = 0; i < elain.Haukut; i++)
+                    {
+                        Console.WriteLine("Woof");
+                    }
+                }
+
 
                 line = Console.ReadLine(); // line ettei kaadu
+          
 
             }
             catch (Exception ex)

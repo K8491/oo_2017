@@ -34,7 +34,9 @@ namespace tehtavia
         {
             try
             {
-                Haukut = haukut;
+                Hereilla = true;
+                   Haukut = haukut;
+             
             }
             catch (Exception ex)
             {
@@ -46,7 +48,7 @@ namespace tehtavia
         public override string ToString()
         {
         
-                return "Koira haukuu " + Haukut + " kertaa";
+                return "Koira"+Nimi+" haukuu " + Haukut + " kertaa";
             
         }
     }
