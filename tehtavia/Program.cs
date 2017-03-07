@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace tehtavia
@@ -146,6 +147,12 @@ namespace tehtavia
                     {
                         Console.WriteLine("Viiko 2 tehtava 20");
                         Viikko2_20();
+                        break;
+                    }
+                case 21:
+                    {
+                        Console.WriteLine("Viiko 2 tehtava 21");
+                        Viikko2_21();
                         break;
                     }
                 default: break;
@@ -693,6 +700,54 @@ namespace tehtavia
             Valikko();
             Console.Clear();
             Viikko2_20(); // ikuinen loop...
+        }
+        static void Viikko2_21()
+        {
+            try
+            {
+
+                Elain koira = new Elain("spotr", 3);
+                Elain koira2 = new Elain("musti", 4);
+
+                koira.Hereilla = true;
+
+                Console.WriteLine("'Koiran kopissa on elaimia");
+                Console.WriteLine("Heratetaan ne painamalla 4");
+                string line = Console.ReadLine();
+                int Score;
+                if (int.TryParse(line, out Score))
+                {
+                    koira.Haukut = Score;
+                    Console.WriteLine("Koira {0} haukuu:", koira.Nimi);
+                    for (int i = 0; i < Score; i++)
+                    {
+                        Console.WriteLine("Woof");
+                    }
+                }
+                Console.WriteLine("Koiraa 2 ei ole tokatty??");
+                koira2.Hereilla = false;
+                if (koira.Hereilla == false)
+                {
+                    Console.WriteLine("Koira {0} ei ole hereilla", koira2.Nimi);
+                }
+                List<Elain> elaimet = new List<Elain>();
+                elaimet.Add(koira);
+                elaimet.Add(koira2);
+                foreach (Elain item in elaimet)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine("to string");
+                elaimet.ToString();
+
+                line = Console.ReadLine(); // line ettei kaadu
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
         }
 
     }// class loppuu

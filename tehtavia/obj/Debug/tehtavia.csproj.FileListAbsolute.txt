@@ -3,3 +3,6 @@ D:\K8491\tehtavia\obj\Debug\tehtavia.csprojResolveAssemblyReference.cache
 E:\olio\ohjelmointi\tehtavia\bin\Debug\tehtavia.exe.config
 E:\olio\ohjelmointi\tehtavia\obj\Debug\tehtavia.exe
 E:\olio\ohjelmointi\tehtavia\obj\Debug\tehtavia.pdb
+E:\olio\ohjelmointi\tehtavia\bin\Debug\tehtavia.exe
+E:\olio\ohjelmointi\tehtavia\bin\Debug\tehtavia.pdb
+E:\olio\ohjelmointi\tehtavia\obj\Debug\tehtavia.csprojResolveAssemblyReference.cache
