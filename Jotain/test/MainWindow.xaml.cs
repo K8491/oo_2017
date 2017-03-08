@@ -19,17 +19,19 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
         private int ammukset = 10;
         private int maxAmmukset = 10;
-
-        System.Windows.Controls.Image img = new System.Windows.Controls.Image(); // I needed to disambiguate Image.
-
+        public int PlayerY;
+        public int PlayerX;
 
         public MainWindow()
         {
             InitializeComponent();
             initmystuff();
         }
+       
         public void initmystuff()
         {
             /*
@@ -46,13 +48,12 @@ namespace test
             //lopuksi listaan tulee loput luodut elavat oliot
             // saman lainen lista mutta tuhotuista olioista pelaajan saveen.
             Pelaaja alus = new Pelaaja(1, "Mumimuskl", "20:20");
-            img.Source = new BitmapImage(new Uri("E:/olio/ohjelmointi/Jotain/test/pictures/player.png", UriKind.RelativeOrAbsolute)); // fire.png is something like 24 x 44 pixels.
-            stackp.Children.Add(img);
-            img.Height = 23;
-            img.Width = 23;
+          //  System.Windows.Controls.Image img = new System.Windows.Controls.Image(); // I needed to disambiguate Image.
+          //  img.Source = new BitmapImage(new Uri("E:/olio/ohjelmointi/Jotain/test/pictures/player.png", UriKind.RelativeOrAbsolute)); // fire.png is something like 24 x 44 pixels.
 
 
-        }
+
+        }  
         public class Ammus
         {
             public int AmmusID { get; set; }
@@ -106,28 +107,53 @@ namespace test
                 ammukset--;
                 lataus.Value = ammukset;
                 label.Content = "Ammukset " + ammukset +"/"+ maxAmmukset;
-              Point position =Mouse.GetPosition(this.stackp); // tassa eventissa kaytetaan hiirta
+              Point position =Mouse.GetPosition(this.pelikentta); // tassa eventissa kaytetaan hiirta
               new Point(position.X, position.Y);
                 // eventtissa luodaan uusi luoti muoto
                 Line l = new Line();
-                l.Stroke = new SolidColorBrush(Colors.Black);
+                l.Stroke = new SolidColorBrush(Colors.Aqua);
                 l.StrokeThickness = 2.0;
                 l.X1 = 0; //luotia tehdessa saadaan tiedot
                 l.Y1 = 0;
                 l.X2 = position.X;
                 l.Y2 = position.Y;
-                l.Name = "l";
-                stackp.Children.Clear(); // ei saa kaytaa stackpanelia
-                stackp.Children.Add(l);
-                initmystuff();
+                //pelikentta.Children.Clear(); // ei saa kaytaa stackpanelia, vaan kaytetaan canvasta
+                pelikentta.Children.Add(l);
+                if (pelikentta.Children.Count > 4)
+                {
+                    pelikentta.Children.RemoveAt(1); // 1 on pelajan merkki
+                }
 
             }
         }
-
+        private void pelikentta_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Space:
+                    break;
+                case Key.A:
+                    PlayerX -= 12;
+                    break;
+                case Key.D:
+                    PlayerX += 12;
+                    break;
+                case Key.S:
+                    PlayerY += 12;
+                    break;
+                case Key.W:
+                    PlayerY -= 12;
+                    break;
+            }
+            Canvas.SetTop(pelaaja, PlayerY);
+            Canvas.SetLeft(pelaaja, PlayerX);
+        }
         private void stackp_MouseMove(object sender, MouseEventArgs e)
         {
-            Point position = Mouse.GetPosition(this.stackp);
+            Point position = Mouse.GetPosition(this.pelikentta);
             playerpos.Text = "X: " + position.X + "\n" + "Y: " + position.Y;
+
+            nakyma.Text = " "+ PlayerX+" " + PlayerY;
         }
 
         private void lataaAmmukset_Click(object sender, RoutedEventArgs e)
@@ -136,6 +162,9 @@ namespace test
             lataus.Value = ammukset; // pitais hoitaa eventilla
             label.Content = "Ammukset " + ammukset + "/" + maxAmmukset;  // pitais hoitaa eventilla
         }
+
+
     }
+    
 }
 
