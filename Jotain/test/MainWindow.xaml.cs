@@ -22,6 +22,9 @@ namespace test
         private int ammukset = 10;
         private int maxAmmukset = 10;
 
+        System.Windows.Controls.Image img = new System.Windows.Controls.Image(); // I needed to disambiguate Image.
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +41,64 @@ namespace test
             muista bindata eventeiks ammusten kaytto, ettei kokoajan tarvii sanoa  lataus.Value = ammukset
              * 
              * */
+            List<Ammus> luodit = new List<Ammus>();
+            // tahan lista jossa pelaaja on 1 ja sen jalkeen yksikerrallaan lisataan tarkeat npc:t
+            //lopuksi listaan tulee loput luodut elavat oliot
+            // saman lainen lista mutta tuhotuista olioista pelaajan saveen.
+            Pelaaja alus = new Pelaaja(1, "Mumimuskl", "20:20");
+            img.Source = new BitmapImage(new Uri("E:/olio/ohjelmointi/Jotain/test/pictures/player.png", UriKind.RelativeOrAbsolute)); // fire.png is something like 24 x 44 pixels.
+            stackp.Children.Add(img);
+            img.Height = 23;
+            img.Width = 23;
+
+
         }
+        public class Ammus
+        {
+            public int AmmusID { get; set; }
+            public string Suunta { get; set; }
+            public string AmpujanId { get; set; }
+            public int AmmuksenTyyppi { get; set; }
+            public int TTD { get; set; }
+            public int MaxTTD { get; set; }
+            public int Nopeus=4;
+            public bool OnkoOlemassa { get; set; }
+            Ammus(int ammusID,string suunta, string ampujanId, int ammukseTyyppi, int tTD, bool Olemassa)
+            {
+                AmmusID = ammusID; // avain dictionaryyn
+                Suunta = suunta;
+                AmpujanId = ampujanId;
+                AmmuksenTyyppi= ammukseTyyppi;
+                MaxTTD =5;
+                TTD = tTD;
+                OnkoOlemassa = Olemassa;
+            }
+        }
+        public class Pelaaja
+        {
+            public int PelaajaID { get; set; }
+            public string Nimi { get; set; }
+            public bool OnkoHengissa { get; set; }
+
+            public int MaxAmmukset { get; set; }
+            public int Ammukset { get; set; }
+
+            public string Sijainti { get; set; } // X,Y
+
+            public int HP = 10;
+            public int MaxHP { get; set; }
+
+            public int HahmonKoko = 5; // tehdaan aluksi nelio kertomalla
+
+          public Pelaaja(int Id, string nimi, string sijainti)
+            {
+                PelaajaID = Id;
+                Nimi = nimi;
+                Sijainti = sijainti;
+            }
+        }
+
+
         private void stackp_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             if (ammukset > 0)
@@ -46,19 +106,21 @@ namespace test
                 ammukset--;
                 lataus.Value = ammukset;
                 label.Content = "Ammukset " + ammukset +"/"+ maxAmmukset;
-              Point position = Mouse.GetPosition(this.stackp);
+              Point position =Mouse.GetPosition(this.stackp); // tassa eventissa kaytetaan hiirta
+              new Point(position.X, position.Y);
+                // eventtissa luodaan uusi luoti muoto
                 Line l = new Line();
                 l.Stroke = new SolidColorBrush(Colors.Black);
                 l.StrokeThickness = 2.0;
-                l.X1 = 10;
-                l.Y1 = 10;
+                l.X1 = 0; //luotia tehdessa saadaan tiedot
+                l.Y1 = 0;
                 l.X2 = position.X;
                 l.Y2 = position.Y;
-                l.HorizontalAlignment = HorizontalAlignment.Left;
-                l.VerticalAlignment = VerticalAlignment.Center;
-                stackp.Children.Clear();
+                l.Name = "l";
+                stackp.Children.Clear(); // ei saa kaytaa stackpanelia
                 stackp.Children.Add(l);
-               
+                initmystuff();
+
             }
         }
 
