@@ -121,7 +121,7 @@ namespace test
                 pelikentta.Children.Add(l);
                 if (pelikentta.Children.Count > 4)
                 {
-                    pelikentta.Children.RemoveAt(1); // 1 on pelajan merkki
+                    pelikentta.Children.RemoveAt(1); // [0] on pelajan merkki
                 }
 
             }

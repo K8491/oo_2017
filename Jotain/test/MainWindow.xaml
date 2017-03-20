@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid RenderTransformOrigin="0.494,0.48">
-        <Canvas x:Name="pelikentta" HorizontalAlignment="Left" Height="267" Margin="185,10,0,0" VerticalAlignment="Top" Width="312" MouseDown="stackp_MouseDown_1" MouseMove="stackp_MouseMove" RenderTransformOrigin="0.5,0.5" Background="#FFB68E8E" KeyDown="pelikentta_KeyDown" KeyUp="pelikentta_KeyUp">
+        <Canvas x:Name="pelikentta" HorizontalAlignment="Left" Height="267" Margin="185,10,0,0" VerticalAlignment="Top" Width="312" MouseDown="stackp_MouseDown_1" MouseMove="stackp_MouseMove" RenderTransformOrigin="0.5,0.5" Background="#FFB68E8E" KeyDown="pelikentta_KeyDown">
             <Image x:Name="pelaaja"  Height = "23"  Width = "23" Source="E:/olio/ohjelmointi/Jotain/test/pictures/player.png" Canvas.Left="16" Canvas.Top="17"></Image>
         </Canvas>
 
