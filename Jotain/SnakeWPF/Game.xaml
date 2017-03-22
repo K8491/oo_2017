@@ -1,0 +1,15 @@
+﻿<Window x:Class="SnakeWPF.Game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SnakeWPF"
+        mc:Ignorable="d"
+        Title="K8491's Snake Game" Height="422" Width="642" ResizeMode="NoResize" >
+<Grid Background="Black">
+    <Canvas Name="paintCanvas" Background="Black" HorizontalAlignment="Stretch" MaxHeight="422" MaxWidth="642" >
+        <TextBlock x:Name="txtMessage" FontFamily="tahoma" FontSize="33" Foreground="AntiqueWhite" Canvas.Left="10" Canvas.Top="10" Text="Let's play!" ></TextBlock>
+    </Canvas>
+
+</Grid>
+</Window>
