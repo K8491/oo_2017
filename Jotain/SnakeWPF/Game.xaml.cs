@@ -35,7 +35,7 @@ namespace SnakeWPF
         private const int maxWidth = 620;
         private const int snakeWidth = 10;
         private int snakeLenght = 100;
-        private int easiness = 20; //timerin ajastin aika
+        private int easiness = 50; //timerin ajastin aika
         private int score = 0;
         private List<Point> bonusPoints = new List<Point>(); //omena kokoelma
         private const int bonusCount = 20; //omenat
@@ -97,19 +97,31 @@ namespace SnakeWPF
                 snakeParts.RemoveAt(count - snakeLenght);
 
             }
-
         }
         private void PaintBonus(int index)
         {
-            // arvotaan omenalle piste (X,Y)
-            Point point = new Point(rnd.Next(minimi,maxWidth), rnd.Next(minimi, maxHeight));
+
+             // arvotaan omenalle piste (X,Y)
+            Point point = new Point(rnd.Next(minimi, maxWidth-10), rnd.Next(minimi, maxHeight-10));
+
+            for (int i = 0; i < snakeParts.Count; i++)
+            {
+                do
+            {      
+                    new Point(rnd.Next(minimi, maxWidth-10), rnd.Next(minimi, maxHeight-10));
+              
+            } while ((Math.Abs (snakeParts[i].X - point.X) < 10 && (Math.Abs( snakeParts[i].Y - point.Y )< 10)));
+                break;
+            }
+
             //omenan piirto
             Ellipse omena = new Ellipse();
-            omena.Fill = Brushes.Red;
-            omena.Width = snakeWidth;
-            omena.Height = snakeWidth;
-            Canvas.SetTop(omena, point.Y);
-            Canvas.SetLeft(omena, point.X);  
+                omena.Fill = Brushes.Red;
+                omena.Width = snakeWidth;
+                omena.Height = snakeWidth;
+                Canvas.SetTop(omena, point.Y);
+                Canvas.SetLeft(omena, point.X);
+
             paintCanvas.Children.Insert(index, omena); //koska me lisätään listassa tiettyyn pisteeseen
             bonusPoints.Insert(index, point);
 
@@ -149,10 +161,6 @@ namespace SnakeWPF
                     if (lastDirection != Direction.Left)
                         currentDirection = Direction.Right;
                     break;
-                case  Key.D:
-                    if (lastDirection != Direction.Left)
-                        currentDirection = Direction.Right;
-                    break;
                 case Key.Down:
                     if (lastDirection != Direction.Up)
                         currentDirection = Direction.Down;
@@ -165,16 +173,16 @@ namespace SnakeWPF
             switch (currentDirection)
             {
                 case Direction.Up:
-                    currentPosition.Y -= 1;
+                    currentPosition.Y -= 4;
                     break;
                 case Direction.Right:
-                    currentPosition.X += 1;
+                    currentPosition.X += 4;
                     break;
                 case Direction.Down:
-                    currentPosition.Y += 1;
+                    currentPosition.Y += 4;
                     break;
                 case Direction.Left:
-                    currentPosition.X -= 1;
+                    currentPosition.X -= 4;
                     break;
                 default:
                     break;
@@ -215,6 +223,11 @@ namespace SnakeWPF
                         easiness--;
                         timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
                     }
+                    else
+                    {
+                        snakeLenght += 5;
+                        score += 10;
+                    }
                     this.Title = "SnakeWPF Your score:" + score;
                     bonusPoints.RemoveAt(n);
                     paintCanvas.Children.RemoveAt(n);
@@ -236,15 +249,12 @@ namespace SnakeWPF
         private void GameOverShow()
         {
             txtMessage.Text = "Your score: " + score + " \n press Esc to quit";
-            paintCanvas.Children.Add(txtMessage);
             //animaatio joka siirtaa kanvaasin
             var trs = new TranslateTransform();
             var anim = new DoubleAnimation(0,620, TimeSpan.FromSeconds(15));
             trs.BeginAnimation(TranslateTransform.XProperty, anim);
             trs.BeginAnimation(TranslateTransform.YProperty, anim);
             paintCanvas.RenderTransform = trs;
-
-            Close();
         }
 
     }

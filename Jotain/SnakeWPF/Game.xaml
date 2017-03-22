@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="K8491's Snake Game" Height="422" Width="642" ResizeMode="NoResize" >
 <Grid Background="Black">
-    <Canvas Name="paintCanvas" Background="Black" HorizontalAlignment="Stretch" MaxHeight="422" MaxWidth="642" >
+        <Image Source="snake.png" Width="600" Height="370" Margin="30"></Image>
+        <Canvas Name="paintCanvas" HorizontalAlignment="Stretch" MaxHeight="422" MaxWidth="642" >
         <TextBlock x:Name="txtMessage" FontFamily="tahoma" FontSize="33" Foreground="AntiqueWhite" Canvas.Left="10" Canvas.Top="10" Text="Let's play!" ></TextBlock>
+          
     </Canvas>
 
 </Grid>
