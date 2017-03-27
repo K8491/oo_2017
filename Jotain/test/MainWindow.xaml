@@ -6,18 +6,14 @@
         xmlns:local="clr-namespace:test"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="test.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="400" Width="340" ResizeMode="NoResize" >
     <Grid RenderTransformOrigin="0.494,0.48">
-        <Canvas x:Name="pelikentta" HorizontalAlignment="Left" Height="267" Margin="185,10,0,0" VerticalAlignment="Top" Width="312" MouseDown="stackp_MouseDown_1" MouseMove="stackp_MouseMove" RenderTransformOrigin="0.5,0.5" Background="#FFB68E8E" KeyDown="pelikentta_KeyDown">
-            <Image x:Name="pelaaja"  Height = "23"  Width = "23" Source="E:/olio/ohjelmointi/Jotain/test/pictures/player.png" Canvas.Left="16" Canvas.Top="17"></Image>
+        <Canvas x:Name="pelikentta" HorizontalAlignment="Left" Height="345" Margin="0,26,0,0" VerticalAlignment="Top" Width="334" RenderTransformOrigin="0.5,0.5" Background="#FFB68E8E">
+            <Image x:Name="player"  Height = "23"  Width = "23" Source="E:/olio/ohjelmointi/Jotain/test/pictures/player.png" Canvas.Left="16" Canvas.Top="17"></Image>
+            <TextBlock x:Name="txtBlock" Text="Let's play" />
         </Canvas>
-
-        <TextBox x:Name="playerpos" Text="{Binding position, Mode=OneWay}" HorizontalAlignment="Left" Height="49" Margin="34,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125"/>
-        <Label x:Name="label" Content="Ammukset 10/10" HorizontalAlignment="Left" Margin="34,160,0,0" VerticalAlignment="Top" Height="32" Width="125"/>
-        <Button x:Name="lataaAmmukset" Content="Lataa" HorizontalAlignment="Left" Margin="34,228,0,0" VerticalAlignment="Top" Width="75" Click="lataaAmmukset_Click"/>
-        <ProgressBar x:Name="lataus" HorizontalAlignment="Left" Height="26" Margin="34,197,0,0" VerticalAlignment="Top" Width="109" Maximum="10" Value="10" />
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="34,104,0,0" TextWrapping="Wrap" Text="{Binding Canvas., ElementName=pelaaja, Mode=OneWay}" VerticalAlignment="Top" Height="40" Width="125"/>
-        <TextBox x:Name="nakyma"  HorizontalAlignment="Left" Height="49" Margin="34,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" />
+        <Label x:Name="label" Content="Ammukset 10/10" HorizontalAlignment="Left" Margin="114,0,0,0" VerticalAlignment="Top" Height="26" Width="118"/>
+        <ProgressBar x:Name="lataus" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="109" Maximum="10" Value="10" />
 
     </Grid>
 </Window>
