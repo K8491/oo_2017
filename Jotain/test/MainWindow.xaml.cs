@@ -35,19 +35,20 @@ namespace test
         private const int minimi = 10;
         private const int maxHeight = 345-minimi;
         private const int maxWidth = 334-minimi;
-        private const int snakeWidth = 10;
-        private int snakeLenght = 100;
+        private const int playerWidth = 24;
+        private int playerLenght = 24;
         private int easiness = 50; //timerin ajastin aika
         private int score = 0;
         private List<Point> bonusPoints = new List<Point>(); //omena kokoelma
         private const int bonusCount = 20; //omenat
-        private List<Point> snakeParts = new List<Point>();
+        private List<Line> playerParts = new List<Line>();
         private Point startingPoint = new Point(100, 100);
         private Point currentPosition = new Point();
         private Direction lastDirection = Direction.Right;
         private Direction currentDirection = Direction.Right;
         private DispatcherTimer timer;
         private Random rnd = new Random(); // pisteiden arvontaa varten
+
 
         public MainWindow()
         {
@@ -61,7 +62,7 @@ namespace test
             MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown);
             //piirretaan omenat ja kaarme
             IniBonusPoints();
-            PaintSnake(startingPoint);
+            Paintplayer(startingPoint);
             currentPosition = startingPoint;
 
             //start game
@@ -69,7 +70,7 @@ namespace test
 
         }
 
-        public void initmystuff()
+    public void initmystuff()
         {
             /*
              *      var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -93,17 +94,17 @@ namespace test
         }  
         public class Ammus
         {
-            public int AmmusID { get; set; }
-            public string Suunta { get; set; }
-            public string AmpujanId { get; set; }
-            public int AmmuksenTyyppi { get; set; }
-            public int TTD { get; set; }
-            public int MaxTTD { get; set; }
-            public int Nopeus=4;
-            public bool OnkoOlemassa { get; set; }
+            public int AmmusID { get; set; } // listan index
+            public string Suunta { get; set; }  // vektori / rtt.Angel  
+            public string AmpujanId { get; set; } // tarvitaanko tietaa??
+            public int AmmuksenTyyppi { get; set; } // ei tassa pelissa
+            public int TTD { get; set; }  // lista int sama index kuin ammus listan ammuksessa, mutta pitaa sisallaan TTD(int) arcon
+            public int MaxTTD { get; set; } // const int
+            public int Nopeus=4;  // osien pituus jos lasketaan etta luntikerralla luoti kulkee suuntaansa x matkan/sek (tarkista matematiikan kaava)
+            public bool OnkoOlemassa { get; set; } // ei tarvita koska TTD arvo olisi 0.
             Ammus(int ammusID,string suunta, string ampujanId, int ammukseTyyppi, int tTD, bool Olemassa)
             {
-                AmmusID = ammusID; // avain dictionaryyn
+                AmmusID = ammusID; // avain dictionaryyn, ei vaan listaan
                 Suunta = suunta;
                 AmpujanId = ampujanId;
                 AmmuksenTyyppi= ammukseTyyppi;
@@ -114,9 +115,9 @@ namespace test
         }
         public class Pelaaja
         {
-            public int PelaajaID { get; set; }
+            public int PelaajaID { get; set; } // ei tarvita useita hahmo listan id, jos vihollisia saadaan peliin
             public string Nimi { get; set; }
-            public bool OnkoHengissa { get; set; }
+            public bool OnkoHengissa { get; set; } // Hahmolistan rinalle toinen lista, tai hahmolistan sisaan kaksi arvoa. (olio lista?)
 
             public int MaxAmmukset { get; set; }
             public int Ammukset { get; set; }
@@ -144,45 +145,34 @@ namespace test
 
             }
         }
-        private void PaintSnake(Point currentpoint)
+        private void Paintplayer(Point currentpoint)
         {
-            Ellipse snake = new Ellipse();
-            snake.Fill = Brushes.Green;
-            snake.Width = snakeWidth;
-            snake.Height = snakeWidth;
+
             Canvas.SetTop(player, currentpoint.Y);
             Canvas.SetLeft(player, currentpoint.X);
+           
             int count = pelikentta.Children.Count;
-            pelikentta.Children.Add(snake);
-            snakeParts.Add(currentPosition);
-            //rajoitetaan käärmeen pituutta
-            //huom! bonusCount < snakeLenght
-            if (count > snakeLenght)
-            {
-                pelikentta.Children.RemoveAt(count - snakeLenght + (bonusCount - 1));
-                snakeParts.RemoveAt(count - snakeLenght);
 
-            }
         }
         private void PaintBonus(int index)
         {
 
             // arvotaan omenalle piste (X,Y)
             Point point = new Point(rnd.Next(minimi, maxWidth - 10), rnd.Next(minimi, maxHeight - 10));
-            for (int i = 0; i < snakeParts.Count; i++)
+            for (int i = 0; i < 1; i++)
             {
                 do
                 {
                     new Point(rnd.Next(minimi, maxWidth - 10), rnd.Next(minimi, maxHeight - 10));
 
-                } while ((Math.Abs(snakeParts[i].X - point.X) < 10 && (Math.Abs(snakeParts[i].Y - point.Y) < 10)));
+                } while ((Math.Abs(currentPosition.X - point.X) < 24 && (Math.Abs(currentPosition.Y - point.Y) < 10)));
                 break;
             }
             //omenan piirto
             Ellipse omena = new Ellipse();
             omena.Fill = Brushes.Red;
-            omena.Width = snakeWidth;
-            omena.Height = snakeWidth;
+            omena.Width = playerWidth/2;
+            omena.Height = playerWidth/2;
             Canvas.SetTop(omena, point.Y);
             Canvas.SetLeft(omena, point.X);
 
@@ -214,6 +204,11 @@ namespace test
                     if (ammukset < maxAmmukset)
                         lataaAmmukset();
                     break;
+                case Key.Space:
+                    if (ammukset > 0)
+                    {
+                        Ampuu(currentPosition, false);
+                    }break;
                 case Key.Left:
                     if (lastDirection != Direction.Right)
                         currentDirection = Direction.Left;
@@ -242,48 +237,52 @@ namespace test
             {
                 case Direction.Up:
                     currentPosition.Y -= 4;
+                    rtt.Angle = 0; //rotate xaml elementti
                     break;
                 case Direction.Right:
                     currentPosition.X += 4;
+                    rtt.Angle = 90;
                     break;
                 case Direction.Down:
                     currentPosition.Y += 4;
+                    rtt.Angle = 180;
                     break;
                 case Direction.Left:
                     currentPosition.X -= 4;
+                    rtt.Angle = 270;
                     break;
                 default:
                     break;
             }
-            PaintSnake(currentPosition);
+            Paintplayer(currentPosition);
             //tormaystarkastelut 1-3
             //TT#1 tarkistetaan onko canvaasilla
             if ((currentPosition.X > maxWidth) || (currentPosition.X < minimi) ||
                 (currentPosition.Y > maxHeight) || (currentPosition.Y < minimi))
                 GameOver();
             // TT#2 tarkistetaan ettei pure omaa hantaansa
-            for (int i = 0; i < snakeParts.Count - snakeWidth * 2; i++)
+         /*   for (int i = 0; i < playerParts.Count - playerWidth * 2; i++)
             {
-                Point p = new Point(snakeParts[i].X, snakeParts[i].Y);
-                if ((Math.Abs(p.X - currentPosition.X) < snakeWidth) &&
-                    (Math.Abs(p.Y - currentPosition.Y) < snakeWidth))
+                Point p = new Point(playerParts[i].X, playerParts[i].Y);
+                if ((Math.Abs(p.X - currentPosition.X) < playerWidth) &&
+                    (Math.Abs(p.Y - currentPosition.Y) < playerWidth))
                 {
                     GameOver();
                     break;
                 }
-            }
+            }*/
             //TT#3
             // tarkistetaan osuuko omenaan
             int n = 0;
             foreach (Point point in bonusPoints)
             {
-                if ((Math.Abs(point.X - currentPosition.X) < snakeWidth) &&
-                   (Math.Abs(point.Y - currentPosition.Y) < snakeWidth))
+                if ((Math.Abs(point.X - currentPosition.X) < playerWidth) &&
+                   (Math.Abs(point.Y - currentPosition.Y) < playerWidth))
                 {
 
                     // syodaan omena
                     score += 10;
-                    snakeLenght += 10;
+                    playerLenght += 10;
 
                     // nopeutetaan pelia
                     if (easiness > 5)
@@ -291,12 +290,12 @@ namespace test
                         easiness--;
                         timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
                     }
-                    else
+                    else 
                     {
-                        snakeLenght += 5;
+                        playerLenght += 5;
                         score += 10;
                     }
-                    this.Title = "SnakeWPF Your score:" + score;
+                    this.Title = "playerWPF Your score:" + score;
                     bonusPoints.RemoveAt(n);
                     pelikentta.Children.RemoveAt(n);
                     PaintBonus(n);
@@ -325,38 +324,82 @@ namespace test
         }
         private new void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Ampuu(currentPosition);
+            Ampuu(currentPosition, true);
         }
-        private void Ampuu(Point currentpos)
+        private void Ampuu(Point currentpos, bool valine)
         {
+            //tarkistetaan minne ollaan ampumassa jos ei tähdätä hiirellä    rtt.Angle = 0; osoittaa alus ylos
+            if (valine)
+            {
+                currentpos = hiiri();
+            }
+            else
+            {
+                int key = Convert.ToInt16(rtt.Angle);
+                if (key == 0 | key == 90 | key == 180 | key == 270)
+                {
+                    switch (key)
+                    { 
+                        case 0: // ylos
+                            currentpos.Y = currentPosition .Y - 60;
+                            break;
+                        case 90: // oikealle
+                            currentpos.X = currentPosition.X + 60;
 
+                            break;
+                        case 180: // alas
+                            currentpos.Y = currentPosition.Y + 60;
+                            break;
+
+                        case 270: // vasen
+                            currentpos.X = currentPosition.X - 60;
+                            break;
+                    }
+                }
+            }
+
+            //ammutaan
             if (ammukset > 0)
             {
                 ammukset--;
                 lataus.Value = ammukset;
-                Point position = Mouse.GetPosition(this.pelikentta); // tassa eventissa kaytetaan hiirta
-                new Point(position.X, position.Y);
+
+                new Point(currentpos.X, currentpos.Y);
                 // eventtissa luodaan uusi luoti muoto
                 Line l = new Line();
                 l.Stroke = new SolidColorBrush(Colors.Aqua);
                 l.StrokeThickness = 2.0;
                 l.X1 = currentPosition.X; //luotia tehdessa saadaan tiedot
                 l.Y1 = currentPosition.Y;
-                l.X2 = position.X;
-                l.Y2 = position.Y;
-                //pelikentta.Children.Clear(); // ei saa kaytaa stackpanelia, vaan kaytetaan canvasta
+                l.X2 = currentpos.X;
+                l.Y2 = currentpos.Y;
+
+                if (playerParts.Count > 2)
+                {
+                    //poistetaan luoteja
+                    int n = 0;
+                    foreach (Line line in pelikentta.Children)
+                    {
+                        //pelikentta.Children.RemoveAt(); pitäisi poistaa jo ammutut luodit, mutta ei toimi 
+
+                    }
+                    playerParts.Clear();
+                    n++;
+                }
                 pelikentta.Children.Add(l);
-            }
+              
         }
+        } 
+        private Point hiiri()
+        {
+            Point position = Mouse.GetPosition(this.pelikentta);
+            return position;
+        } // jos halutaan tietaa hiiren sijainti
         private void lataaAmmukset()
         {
             ammukset = maxAmmukset;
             lataus.Value = ammukset; // pitais hoitaa eventilla
             label.Content = "Ammukset " + ammukset + "/" + maxAmmukset;  // pitais hoitaa eventilla
         }
-
-
     }
-    
 }
-

@@ -14,10 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SnakeWPF
+namespace playerWPF
 {
     /// <summary>
-    /// Classic old snake game using WPF
+    /// Classic old player game using WPF
     /// </summary>
     /// 
     public enum Direction
@@ -33,13 +33,13 @@ namespace SnakeWPF
         private const int minimi= 10;
         private const int maxHeight =380;
         private const int maxWidth = 620;
-        private const int snakeWidth = 10;
-        private int snakeLenght = 100;
+        private const int playerWidth = 10;
+        private int playerLenght = 100;
         private int easiness = 50; //timerin ajastin aika
         private int score = 0;
         private List<Point> bonusPoints = new List<Point>(); //omena kokoelma
         private const int bonusCount = 20; //omenat
-        private List<Point> snakeParts = new List<Point>();
+        private List<Point> playerParts = new List<Point>();
         private Point startingPoint=new Point(100,100); 
         private Point currentPosition = new Point(); 
         private Direction lastDirection = Direction.Right; 
@@ -62,7 +62,7 @@ namespace SnakeWPF
 
             //piirretaan omenat ja kaarme
             IniBonusPoints();
-            PaintSnake(startingPoint);
+            Paintplayer(startingPoint);
             currentPosition = startingPoint;
 
             //start game
@@ -78,23 +78,23 @@ namespace SnakeWPF
 
             }
         }
-        private void PaintSnake(Point currentpoint)
+        private void Paintplayer(Point currentpoint)
         {
-            Ellipse snake = new Ellipse();
-            snake.Fill = Brushes.Green;
-            snake.Width = snakeWidth;
-            snake.Height = snakeWidth;
-            Canvas.SetTop(snake, currentpoint.Y);
-            Canvas.SetLeft(snake, currentpoint.X);
+            Ellipse player = new Ellipse();
+            player.Fill = Brushes.Green;
+            player.Width = playerWidth;
+            player.Height = playerWidth;
+            Canvas.SetTop(player, currentpoint.Y);
+            Canvas.SetLeft(player, currentpoint.X);
             int count = paintCanvas.Children.Count;
-            paintCanvas.Children.Add(snake);
-            snakeParts.Add(currentPosition);
+            paintCanvas.Children.Add(player);
+            playerParts.Add(currentPosition);
             //rajoitetaan käärmeen pituutta
-            //huom! bonusCount < snakeLenght
-            if (count > snakeLenght)
+            //huom! bonusCount < playerLenght
+            if (count > playerLenght)
             {
-                paintCanvas.Children.RemoveAt(count - snakeLenght + (bonusCount -1));
-                snakeParts.RemoveAt(count - snakeLenght);
+                paintCanvas.Children.RemoveAt(count - playerLenght + (bonusCount -1));
+                playerParts.RemoveAt(count - playerLenght);
 
             }
         }
@@ -104,21 +104,21 @@ namespace SnakeWPF
              // arvotaan omenalle piste (X,Y)
             Point point = new Point(rnd.Next(minimi, maxWidth-10), rnd.Next(minimi, maxHeight-10));
 
-            for (int i = 0; i < snakeParts.Count; i++)
+            for (int i = 0; i < playerParts.Count; i++)
             {
                 do
             {      
                     new Point(rnd.Next(minimi, maxWidth-10), rnd.Next(minimi, maxHeight-10));
               
-            } while ((Math.Abs (snakeParts[i].X - point.X) < 10 && (Math.Abs( snakeParts[i].Y - point.Y )< 10)));
+            } while ((Math.Abs (playerParts[i].X - point.X) < 10 && (Math.Abs( playerParts[i].Y - point.Y )< 10)));
                 break;
             }
 
             //omenan piirto
             Ellipse omena = new Ellipse();
                 omena.Fill = Brushes.Red;
-                omena.Width = snakeWidth;
-                omena.Height = snakeWidth;
+                omena.Width = playerWidth;
+                omena.Height = playerWidth;
                 Canvas.SetTop(omena, point.Y);
                 Canvas.SetLeft(omena, point.X);
 
@@ -187,18 +187,18 @@ namespace SnakeWPF
                 default:
                     break;
             }
-            PaintSnake(currentPosition);
+            Paintplayer(currentPosition);
             //tormaystarkastelut 1-3
             //TT#1 tarkistetaan onko canvaasilla
             if ((currentPosition.X > maxWidth) || (currentPosition.X < minimi) ||
                 (currentPosition.Y > maxHeight) || (currentPosition.Y < minimi))
             GameOver();
             // TT#2 tarkistetaan ettei pure omaa hantaansa
-            for (int i = 0; i < snakeParts.Count - snakeWidth * 2; i++)
+            for (int i = 0; i < playerParts.Count - playerWidth * 2; i++)
             {
-                Point p = new Point(snakeParts[i].X, snakeParts[i].Y);
-                if ((Math.Abs(p.X - currentPosition.X) < snakeWidth) &&
-                    (Math.Abs(p.Y - currentPosition.Y) < snakeWidth))
+                Point p = new Point(playerParts[i].X, playerParts[i].Y);
+                if ((Math.Abs(p.X - currentPosition.X) < playerWidth) &&
+                    (Math.Abs(p.Y - currentPosition.Y) < playerWidth))
                 {
                     GameOver();
                     break;
@@ -209,13 +209,13 @@ namespace SnakeWPF
                 int n = 0;
             foreach (Point point in bonusPoints)
             {
-                if ((Math.Abs(point.X - currentPosition.X) < snakeWidth) &&
-                   (Math.Abs(point.Y - currentPosition.Y) < snakeWidth))
+                if ((Math.Abs(point.X - currentPosition.X) < playerWidth) &&
+                   (Math.Abs(point.Y - currentPosition.Y) < playerWidth))
                 {
 
                     // syodaan omena
                     score += 10;
-                    snakeLenght += 10;
+                    playerLenght += 10;
 
                     // nopeutetaan pelia
                     if(easiness > 5)
@@ -225,10 +225,10 @@ namespace SnakeWPF
                     }
                     else
                     {
-                        snakeLenght += 5;
+                        playerLenght += 5;
                         score += 10;
                     }
-                    this.Title = "SnakeWPF Your score:" + score;
+                    this.Title = "playerWPF Your score:" + score;
                     bonusPoints.RemoveAt(n);
                     paintCanvas.Children.RemoveAt(n);
                     PaintBonus(n);

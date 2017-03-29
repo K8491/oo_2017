@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SnakeWPF
+namespace playerWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -32,7 +32,7 @@ namespace SnakeWPF
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            Game gameWindow = new SnakeWPF.Game();
+            Game gameWindow = new playerWPF.Game();
             gameWindow.Show();
         }
     }

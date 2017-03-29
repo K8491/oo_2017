@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SnakeWPF.Properties
+namespace playerWPF.Properties
 {
 
 

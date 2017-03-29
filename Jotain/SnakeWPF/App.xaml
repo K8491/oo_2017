@@ -1,7 +1,7 @@
-﻿<Application x:Class="SnakeWPF.App"
+﻿<Application x:Class="playerWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SnakeWPF"
+             xmlns:local="clr-namespace:playerWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
