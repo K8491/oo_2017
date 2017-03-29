@@ -373,21 +373,18 @@ namespace test
                 l.Y1 = currentPosition.Y;
                 l.X2 = currentpos.X;
                 l.Y2 = currentpos.Y;
-
-                if (playerParts.Count > 2)
+                /* TODO
+                int n = 0;
+                if (n >= 2)
                 {
                     //poistetaan luoteja
-                    int n = 0;
-                    foreach (Line line in pelikentta.Children)
-                    {
-                        //pelikentta.Children.RemoveAt(); pitäisi poistaa jo ammutut luodit, mutta ei toimi 
-
-                    }
-                    playerParts.Clear();
-                    n++;
+                        pelikentta.Children.RemoveAt();
                 }
+                n++;
+                */ 
                 pelikentta.Children.Add(l);
-              
+
+                txtBlock.Text = "" + pelikentta.Children.Count;
         }
         } 
         private Point hiiri()
