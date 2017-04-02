@@ -35,8 +35,8 @@ namespace test
         private int ammukset = 10;
         private int maxAmmukset = 10;
         private const int minimi = 10;
-        private const int maxHeight = 345-minimi;
-        private const int maxWidth = 334-minimi;
+        private const int maxHeight = 345 - minimi;
+        private const int maxWidth = 334 - minimi;
         private const int playerWidth = 24;
         private int playerLenght = 24;
         private int easiness = 40; //timerin ajastin aika
@@ -51,6 +51,7 @@ namespace test
         private Direction currentDirection = Direction.Right;
         private DispatcherTimer timer;
         private Random rnd = new Random(); // pisteiden arvontaa varten
+        List<Ammus> AmmututAmmukset = new List<Ammus>();
 
         // luodit ja viholliset
         private double lastX;
@@ -69,6 +70,7 @@ namespace test
             // maaritellaan ikkunalle tapahtuman kasittelija nappaimiston kuuntelua varten
             this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
             MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown);
+            MouseRightButtonDown += new MouseButtonEventHandler(MouseDownR);
             //piirretaan omenat ja kaarme
             IniBonusPoints();
             Paintplayer(startingPoint);
@@ -80,46 +82,22 @@ namespace test
         }
         public void initmystuff()
         {
-            /*
-             *      var watch = System.Diagnostics.Stopwatch.StartNew();
-              // the code that you want to measure comes here
-              watch.Stop();
-              var elapsedMs = watch.ElapsedMilliseconds;
+            // EMPTY! just why do i exist?
+    
 
-            muista bindata eventeiks ammusten kaytto, ettei kokoajan tarvii sanoa  lataus.Value = ammukset
-             * 
-             * */
-            List<Ammus> luodit = new List<Ammus>();
-            // tahan lista jossa pelaaja on 1 ja sen jalkeen yksikerrallaan lisataan tarkeat npc:t
-            //lopuksi listaan tulee loput luodut elavat oliot
-            // saman lainen lista mutta tuhotuista olioista pelaajan saveen.
-            Pelaaja alus = new Pelaaja(1, "Mumimuskl", "20:20");
-          //  System.Windows.Controls.Image img = new System.Windows.Controls.Image(); // I needed to disambiguate Image.
-          //  img.Source = new BitmapImage(new Uri("E:/olio/ohjelmointi/Jotain/test/pictures/player.png", UriKind.RelativeOrAbsolute)); // fire.png is something like 24 x 44 pixels.
-
-
-
-        }  
+        }
         public class Ammus
         {
-            public int AmmusID { get; set; } // listan index
-            public string Suunta { get; set; }  // vektori / rtt.Angel  enumdir
-            public string AmpujanId { get; set; } // tarvitaanko tietaa??
-            public int AmmuksenTyyppi { get; set; } // ei tassa pelissa
-            public int TTD { get; set; }  // lista int sama index kuin ammus listan ammuksessa, mutta pitaa sisallaan TTD(int) arcon
-            public int MaxTTD { get; set; } // const int
-            public int Nopeus=4;  // osien pituus jos lasketaan etta luntikerralla luoti kulkee suuntaansa x matkan/sek (tarkista matematiikan kaava)
-            public bool OnkoOlemassa { get; set; } // ei tarvita koska TTD arvo olisi 0.
-            Ammus(int ammusID,string suunta, string ampujanId, int ammukseTyyppi, int tTD, bool Olemassa)
+            private int hypyt = 3;
+            private int nopeus = 4;  // osien pituus jos lasketaan etta luntikerralla luoti kulkee suuntaansa x matkan/sek (tarkista matematiikan kaava)
+            private Point sijainti = new Point();
+            private Direction suunta = new Direction();
+            public  Ammus(Point b, Direction c)
             {
-                AmmusID = ammusID; // avain dictionaryyn, ei vaan listaan
-                Suunta = suunta;
-                AmpujanId = ampujanId;
-                AmmuksenTyyppi= ammukseTyyppi;
-                MaxTTD =5;
-                TTD = tTD;
-                OnkoOlemassa = Olemassa;
-            }
+                sijainti = b;
+                suunta = c;
+                }
+            
         }
         public class Pelaaja
         {
@@ -137,13 +115,12 @@ namespace test
 
             public int HahmonKoko = 5; // tehdaan aluksi nelio kertomalla
 
-          public Pelaaja(int Id, string nimi, string sijainti)
+            public Pelaaja(int Id, string nimi, string sijainti)
             {
                 PelaajaID = Id;
                 Nimi = nimi;
                 Sijainti = sijainti;
-            }
-        }
+            }}
         private void IniBonusPoints()
         {
             for (int n = 0; n < bonusCount; n++)
@@ -157,18 +134,18 @@ namespace test
 
             Canvas.SetTop(player, currentpoint.Y);
             Canvas.SetLeft(player, currentpoint.X);
-           
+
             int count = pelikentta.Children.Count;
 
         }
         private Point ArvoPiste(Point point)
         {
             point = new Point(rnd.Next(minimi, maxWidth - 10), rnd.Next(minimi, maxHeight - 10));
-                do
-                {
-                   new Point(rnd.Next(minimi, maxWidth - 10), rnd.Next(minimi, maxHeight - 10));
+            do
+            {
+                new Point(rnd.Next(minimi, maxWidth - 10), rnd.Next(minimi, maxHeight - 10));
 
-                } while ((Math.Abs(currentPosition.X - point.X) < 24 && (Math.Abs(currentPosition.Y - point.Y) < 10)));
+            } while ((Math.Abs(currentPosition.X - point.X) < 24 && (Math.Abs(currentPosition.Y - point.Y) < 10)));
 
             return point;
         }
@@ -176,7 +153,7 @@ namespace test
         {
             Point point = new Point();
             // arvotaan omenalle piste (X,Y)
-          point =  ArvoPiste(point);
+            point = ArvoPiste(point);
             //omenan piirto
             Ellipse omena = new Ellipse();
             omena.Fill = Brushes.Lime;
@@ -186,29 +163,29 @@ namespace test
             Canvas.SetLeft(omena, point.X);
             pelikentta.Children.Insert(index, omena); //koska me lisätään listassa tiettyyn pisteeseen
             bonusPoints.Insert(index, point);
-       
+
         }
         private void MoveBonus(int omenaNRO)
         {
             // arvotaan omenalle piste (X,Y)
             //omenan liike
 
-                    pelikentta.Children.RemoveAt(omenaNRO);
-                    bonusPoints.RemoveAt(omenaNRO);
-                    // sama kuin paint bonuksessa
-                    Point point = new Point();
-                    Ellipse omena = new Ellipse();
-                    omena.Fill = Brushes.Lime;
-                    omena.Width = playerWidth * 0.8;
-                    omena.Height = playerWidth * 0.8;
-                    //
-                    point.X += bonusPoints[omenaNRO].X + (rnd.Next(-4, 4));
-                    point.Y += bonusPoints[omenaNRO].Y + (rnd.Next(-4, 4));
-                    pelikentta.Children.Insert(omenaNRO, omena); //koska me lisätään listassa tiettyyn pisteeseen
-                    bonusPoints.Insert(omenaNRO, point);
-                    Canvas.SetTop(omena, point.Y );
-                    Canvas.SetLeft(omena, point.X);
-                rnd = new Random();
+            pelikentta.Children.RemoveAt(omenaNRO);
+            bonusPoints.RemoveAt(omenaNRO);
+            // sama kuin paint bonuksessa
+            Point point = new Point();
+            Ellipse omena = new Ellipse();
+            omena.Fill = Brushes.Lime;
+            omena.Width = playerWidth * 0.8;
+            omena.Height = playerWidth * 0.8;
+            //
+            point.X += bonusPoints[omenaNRO].X + (rnd.Next(-4, 4));
+            point.Y += bonusPoints[omenaNRO].Y + (rnd.Next(-4, 4));
+            pelikentta.Children.Insert(omenaNRO, omena); //koska me lisätään listassa tiettyyn pisteeseen
+            bonusPoints.Insert(omenaNRO, point);
+            Canvas.SetTop(omena, point.Y);
+            Canvas.SetLeft(omena, point.X);
+            rnd = new Random();
         }
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
@@ -237,7 +214,7 @@ namespace test
                     if (ammukset > 0)
                     {
                         Ampuu(currentPosition, false);
-                    }break;
+                    } break;
                 case Key.Left:
                     if (lastDirection != Direction.Right)
                         currentDirection = Direction.Left;
@@ -293,20 +270,20 @@ namespace test
             Paintplayer(currentPosition);
             //tormaystarkastelut 1-3
             //TT#1 tarkistetaan onko canvaasilla
-            if ((currentPosition.X > maxWidth) || (currentPosition.X < minimi) ||
-                (currentPosition.Y > maxHeight) || (currentPosition.Y < minimi))
+            if ((currentPosition.X > maxWidth - playerWidth) || (currentPosition.X < minimi) ||
+                (currentPosition.Y > maxHeight - playerLenght) || (currentPosition.Y < minimi))
                 GameOver();
             // TT#2 tarkistetaan ettei pure omaa hantaansa
-         /*   for (int i = 0; i < playerParts.Count - playerWidth * 2; i++)
-            {
-                Point p = new Point(playerParts[i].X, playerParts[i].Y);
-                if ((Math.Abs(p.X - currentPosition.X) < playerWidth) &&
-                    (Math.Abs(p.Y - currentPosition.Y) < playerWidth))
-                {
-                    GameOver();
-                    break;
-                }
-            }*/
+            /*   for (int i = 0; i < playerParts.Count - playerWidth * 2; i++)
+               {
+                   Point p = new Point(playerParts[i].X, playerParts[i].Y);
+                   if ((Math.Abs(p.X - currentPosition.X) < playerWidth) &&
+                       (Math.Abs(p.Y - currentPosition.Y) < playerWidth))
+                   {
+                       GameOver();
+                       break;
+                   }
+               }*/
             //TT#3
             // tarkistetaan osuuko omenaan
             int n = 0;
@@ -317,7 +294,7 @@ namespace test
                 {
                     // syodaan omena
                     score += 10;
-                    playerLenght += 10;
+                //    playerLenght += 10; if i were a snake i would grow
 
                     // nopeutetaan pelia
                     if (easiness > 5)
@@ -325,9 +302,9 @@ namespace test
                         easiness--;
                         timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
                     }
-                    else 
+                    else
                     {
-                        easiness= 1;
+                        easiness = 1;
                         score += 10;
                     }
                     this.Title = "playerWPF Your score:" + score;
@@ -338,7 +315,6 @@ namespace test
                 }
                 n++;
             }
-
         }
         private void GameOver()
         {
@@ -346,7 +322,7 @@ namespace test
             //MessageBox.Show("Your Score: " + score); 
             // this.Close(); // palaa startti ikkunaan
             GameOverShow();
-            
+
         }
         private void GameOverShow()
         {
@@ -362,77 +338,116 @@ namespace test
         {
             Ampuu(currentPosition, true);
         }
+        private void MouseDownR(object sender, MouseButtonEventArgs e)
+        {
+            if (ammukset < maxAmmukset)
+                lataaAmmukset();
+        }
         private void Ampuu(Point currentpos, bool valine)
         {
-             // TODO listataan listaan missa on kaikki ammutut luodit, talla hetkella menevaan vaan pelikentalle
+
+            // pelkistetty ampuminen, ei saa enaa ampua vinottain.
+            Direction key = suunta(currentPosition, hiiri()); // palauttaa left, right, down, up
+
+            // TODO listataan listaan missa on kaikki ammutut luodit, talla hetkella menevaan vaan pelikentalle
             //tarkistetaan minne ollaan ampumassa jos ei tähdätä hiirellä    rtt.Angle = 0; osoittaa alus ylos
-            if (valine)
-            {
-                currentpos = hiiri();
-            }
-            else
-           {
-                int key = Convert.ToInt16(rtt.Angle);
-                if (key == 0 | key == 90 | key == 180 | key == 270)
+            if (valine == false)
+            { // pelaajan aluksen rotaatiosta
+                int keyb = Convert.ToInt32(rtt.Angle);
+                switch (keyb)
                 {
-                    switch (key)
-                    { 
-                        case 0: // ylos
-                            currentpos.Y = currentPosition .Y - 60;
-                            break;
-                        case 90: // oikealle
-                            currentpos.X = currentPosition.X + 60;
-
-                            break;
-                        case 180: // alas
-                            currentpos.Y = currentPosition.Y + 60;
-                            break;
-
-                        case 270: // vasen
-                            currentpos.X = currentPosition.X - 60;
-                            break;
-                    }
+                    case 0:
+                        key = Direction.Down;
+                        break;
+                    case 90:
+                        key = Direction.Left;
+                        break;
+                    case 180:
+                        key = Direction.Up;
+                        break;
+                    case 270:
+                        key = Direction.Right;
+                        break;
                 }
             }
-            //ammutaan
+            bool hit = false;
+            if (key == Direction.Down) { // ylos
+                // currentpos.Y = 0;
+                currentpos.Y =- 10;
+                if (currentpos.Y < 10)
+                {
+                    hit = true;
+                }
+            }
+            else if (key == Direction.Left)
+            { // oikealle
+              // currentpos.X = maxWidth;
+                currentpos.X =+ 10;
+                if (currentpos.X > maxWidth-10)
+                {
+                    hit = true;
+                }
+            }
+            else if (key == Direction.Up)
+            { // alas
+                // currentpos.Y = maxHeight;
+                currentpos.Y =+ 10;
+                if (currentpos.Y > maxWidth - 10)
+                {
+                    hit = true;
+                }
+            }
+
+            else if (key == Direction.Right)
+            { // vasen
+                // currentpos.X = 0;
+                currentpos.X =- 10;
+                if (currentpos.X < 10)
+                {
+                    hit = true;
+                }
+            }
+
+            if (hit == false)
+            {
+                Ampuu(currentpos, false);
+            }
+
+            //tarkistetaan ammukset
             if (ammukset > 0)
             {
                 ammukset--;
                 lataus.Value = ammukset;
 
-                new Point(currentpos.X, currentpos.Y);
                 // eventtissa luodaan uusi luoti muoto
+
+                // Not implemented yet, because I'm lazy
+               // Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
+               // AmmututAmmukset.Add(t);
+
                 Line l = new Line();
                 l.Stroke = new SolidColorBrush(Colors.Aqua);
                 l.StrokeThickness = 2.0;
                 l.X1 = currentPosition.X; //luotia tehdessa saadaan tiedot
                 l.Y1 = currentPosition.Y;
-                l.X2 = currentpos.X;
-                l.Y2 = currentpos.Y;
-               
-                /* TODO
-                int n = 0;
-                if (n >= 2)
-                {
-                    //poistetaan luoteja
-                        pelikentta.Children.RemoveAt();
-                }
-                n++;
-                */ 
+                l.X2 = currentpos.X; // directionX
+                l.Y2 = currentpos.Y; // directionY
                 pelikentta.Children.Add(l);
-                txtBlock.Text = "" + pelikentta.Children.Count;
-        }
-        }
-        private void suunta()
+                    txtBlock.Text = "Child: " + pelikentta.Children.Count +"Key: (" + key +") X:"+ l.X1 + "/"+l.X2 + "  Y: " + l.Y1 + "/" + l.Y2;
+                //txtBlock.Text = "Child: " + suunta(currentPosition, hiiri());
+            }
+        }  
+        private Direction suunta(Point myXY, Point targetXY)
         {
             vSijainti = hiiri(); // tallahetkella klikataan suunta minne mennaan
-            double dx = vSijainti.X - lastX;
-            double dy = vSijainti.Y - lastY;
+            double dx = myXY.X - targetXY.X;
+            double dy = myXY.Y - targetXY.Y;
             if (Math.Abs(dx) > Math.Abs(dy))
                 direction = (dx > 0) ? Direction.Right : Direction.Left;
             else
                 direction = (dy > 0) ? Direction.Down : Direction.Up;
 
+            return direction;
         }
         private Point hiiri()
         {
