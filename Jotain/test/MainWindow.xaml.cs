@@ -23,7 +23,7 @@ namespace test
         Left
     }
     public partial class MainWindow : Window
-    {
+    {// muista siirtaa peliprojektin alle gittiin
         //TODO muista laskea kaikkein olioiden raunat, ei vain yksi arvo jostain reunasta vaan koko olio
         // --||-- vs tormaystarkastus 
         private int ammukset = 10;
