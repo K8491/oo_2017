@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -96,6 +99,9 @@ Issues
         public void initmystuff()
         {
             InitializeComponent();
+       
+
+
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
             timer.Tick += new EventHandler(timer_Tick);
@@ -360,7 +366,7 @@ Issues
             trs.BeginAnimation(TranslateTransform.XProperty, anim);
             trs.BeginAnimation(TranslateTransform.YProperty, anim);
             pelikentta.RenderTransform = trs;
-            Console.ReadLine();
+          //  Console.ReadLine();
            // initmystuff(); //for score test debuging only...
         }
         private new void MouseDown(object sender, MouseButtonEventArgs e)
