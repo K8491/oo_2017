@@ -41,8 +41,12 @@ namespace test
 16. HALL OF FLAME, köhöm Tables of deliciousness: Your score > My score = You have more tasty treats. (princess is happy)
 17. Make the princess??
 18. Cake to the loading screen. (wait what loading screen?.. -menu??)
+19. Scoret talletetaan tiedostoon (txt/scv)
 
-maybe move through walls and tele porting like in the snake??
+    olioohjelmointia enemman ja koodi kuvaavammaksi.
+
+
+maybe move through walls and teleporting like in the snake??
 
 Issues
     // when clicking crash
@@ -61,11 +65,11 @@ Issues
         // --||-- vs tormaystarkastus 
         private int ammukset = 10;
         private int maxAmmukset = 10;
-        private const int minimi = 10;
+        private const int minimi = 3;
         private const int maxHeight = 345 - playerWidth;
         private const int maxWidth = 334 - playerWidth;
         private const int playerWidth = 24;
-        private int playerLenght = 24;
+        //   private int playerLenght = 24; deprivated ;D
         private int easiness = 40; //timerin ajastin aika
         private int score = 0;
         //private int omenaNRO = 0;
@@ -89,10 +93,16 @@ Issues
         private int TTD = 3;
         private bool hit = false;
         //
+
+        //HOF
+        Dictionary<string, int> scoreBoard =
+         new Dictionary<string, int>();
+        // dictionary.Add( string(Pelaaja ID), INT(pisteet));
+
         public MainWindow()
         {
             initmystuff();
-        } 
+        }
         public void initmystuff()
         {
             InitializeComponent();
@@ -100,7 +110,7 @@ Issues
             timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
             timer.Tick += new EventHandler(timer_Tick);
             // maaritellaan ikkunalle tapahtuman kasittelija nappaimiston kuuntelua varten
-            this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
+            KeyDown += new KeyEventHandler(OnButtonKeyDown);
             MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown);
             MouseRightButtonDown += new MouseButtonEventHandler(MouseDownR);
             //piirretaan omenat ja kaarme
@@ -110,44 +120,42 @@ Issues
 
             //start game
             timer.Start(); //ikaan kuin loop
-
-
         }
-      /*  public class Ammus
-        {
-            private int hypyt = 3;
-            private int nopeus = 4;  // osien pituus jos lasketaan etta luntikerralla luoti kulkee suuntaansa x matkan/sek (tarkista matematiikan kaava)
-            private Point sijainti = new Point();
-            private Direction suunta = new Direction();
-            public  Ammus(Point b, Direction c)
-            {
-                sijainti = b;
-                suunta = c;
-                }
-            
-        }*/
-      /*  public class Pelaaja
-        {
-            public int PelaajaID { get; set; } // ei tarvita useita hahmo listan id, jos vihollisia saadaan peliin
-            public string Nimi { get; set; }
-            public bool OnkoHengissa { get; set; } // Hahmolistan rinalle toinen lista, tai hahmolistan sisaan kaksi arvoa. (olio lista?)
+        /*  public class Ammus
+          {
+              private int hypyt = 3;
+              private int nopeus = 4;  // osien pituus jos lasketaan etta luntikerralla luoti kulkee suuntaansa x matkan/sek (tarkista matematiikan kaava)
+              private Point sijainti = new Point();
+              private Direction suunta = new Direction();
+              public  Ammus(Point b, Direction c)
+              {
+                  sijainti = b;
+                  suunta = c;
+                  }
 
-            public int MaxAmmukset { get; set; }
-            public int Ammukset { get; set; }
+          }*/
+        /*  public class Pelaaja
+          {
+              public int PelaajaID { get; set; } // ei tarvita useita hahmo listan id, jos vihollisia saadaan peliin
+              public string Nimi { get; set; }
+              public bool OnkoHengissa { get; set; } // Hahmolistan rinalle toinen lista, tai hahmolistan sisaan kaksi arvoa. (olio lista?)
 
-            public string Sijainti { get; set; } // X,Y
+              public int MaxAmmukset { get; set; }
+              public int Ammukset { get; set; }
 
-            public int HP = 10;
-            public int MaxHP { get; set; }
+              public string Sijainti { get; set; } // X,Y
 
-            public int HahmonKoko = 5; // tehdaan aluksi nelio kertomalla
+              public int HP = 10;
+              public int MaxHP { get; set; }
 
-            public Pelaaja(int Id, string nimi, string sijainti)
-            {
-                PelaajaID = Id;
-                Nimi = nimi;
-                Sijainti = sijainti;
-            }}*/
+              public int HahmonKoko = 5; // tehdaan aluksi nelio kertomalla
+
+              public Pelaaja(int Id, string nimi, string sijainti)
+              {
+                  PelaajaID = Id;
+                  Nimi = nimi;
+                  Sijainti = sijainti;
+              }}*/
         private void IniBonusPoints()
         {
             for (int n = 0; n < bonusCount; n++)
@@ -169,9 +177,9 @@ Issues
             Point position = point;
             do
             {
-               point = new Point(rnd.Next(minimi, maxWidth), rnd.Next(minimi, maxHeight));
+                point = new Point(rnd.Next(minimi, maxWidth), rnd.Next(minimi, maxHeight));
 
-            } while((Math.Abs(position.X - point.X + position.Y - point.Y) < 30));
+            } while ((Math.Abs(position.X - point.X + position.Y - point.Y) < 30));
             //(!(Math.Abs(position.X - point.X) < 30 && (Math.Abs(position.Y - point.Y) < 30)));
             return point;
         }
@@ -211,55 +219,56 @@ Issues
             bonusPoints.Insert(omenaNRO, point);
             Canvas.SetTop(omena, point.Y);
             Canvas.SetLeft(omena, point.X);
-           // rnd = new Random();
+            // rnd = new Random();
         }// FIX ME 
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             // muutetaan suuntaa nappaimiston painalluksen mukaan
             // mutta ei sallita 180 asteen kaannosta
-            if (timer.IsEnabled|| e.Key ==Key.P ||e.Key==Key.Escape)
+            if (timer.IsEnabled || e.Key == Key.P || e.Key == Key.Escape)
                 switch (e.Key)
-            {
-                case Key.P:
-                    if (timer.IsEnabled)
-                        timer.Stop();
-                    else
-                        timer.Start();
+                {
+                    case Key.P:
+                        if (timer.IsEnabled)
+                            timer.Stop();
+                        else
+                            timer.Start();
 
-                    break;
-                case Key.Escape:
-                    if (timer.IsEnabled)
-                        GameOver();
-                    else
-                        this.Close();
-                    break;
-                case Key.R:
-                    if (ammukset < maxAmmukset)
-                        lataaAmmukset();
-                    break;
-                case Key.Space:
-                    if (ammukset > 0)
-                    {
-                        Ampuu(currentPosition, false);
-                    } break;
-                case Key.Left:
-                    if (lastDirection != Direction.Right)
-                        currentDirection = Direction.Left;
-                    break;
+                        break;
+                    case Key.Escape:
+                        if (timer.IsEnabled)
+                            GameOver();
+                        else
+                            this.Close();
+                        break;
+                    case Key.R:
+                        if (ammukset < maxAmmukset)
+                            lataaAmmukset();
+                        break;
+                    case Key.Space:
+                        if (ammukset > 0)
+                        {
+                            Ampuu(currentPosition, false);
+                        }
+                        break;
+                    case Key.Left:
+                        if (lastDirection != Direction.Right)
+                            currentDirection = Direction.Left;
+                        break;
 
-                case Key.Up:
-                    if (lastDirection != Direction.Down)
-                        currentDirection = Direction.Up;
-                    break;
+                    case Key.Up:
+                        if (lastDirection != Direction.Down)
+                            currentDirection = Direction.Up;
+                        break;
 
-                case Key.Right:
-                    if (lastDirection != Direction.Left)
-                        currentDirection = Direction.Right;
-                    break;
-                case Key.Down:
-                    if (lastDirection != Direction.Up)
-                        currentDirection = Direction.Down;
-                    break;
+                    case Key.Right:
+                        if (lastDirection != Direction.Left)
+                            currentDirection = Direction.Right;
+                        break;
+                    case Key.Down:
+                        if (lastDirection != Direction.Up)
+                            currentDirection = Direction.Down;
+                        break;
                 }
             lastDirection = currentDirection;
         }
@@ -297,8 +306,8 @@ Issues
             Paintplayer(currentPosition);
             //tormaystarkastelut 1-3
             //TT#1 tarkistetaan onko canvaasilla
-            if ((currentPosition.X > maxWidth - playerWidth) || (currentPosition.X < minimi) ||
-                (currentPosition.Y > maxHeight - playerLenght) || (currentPosition.Y < minimi))
+            if ((currentPosition.X > maxWidth) || (currentPosition.X < minimi) ||
+                (currentPosition.Y > maxHeight) || (currentPosition.Y < minimi))
                 GameOver();
             // TT#2 tarkistetaan ettei pure omaa hantaansa
             /*   for (int i = 0; i < playerParts.Count - playerWidth * 2; i++)
@@ -321,7 +330,7 @@ Issues
                 {
                     // syodaan omena
                     score += 10;
-                //    playerLenght += 10; if i were a snake i would grow
+                    //    playerLenght += 10; if i were a snake i would grow
 
                     // nopeutetaan pelia
                     if (easiness > 5)
@@ -356,23 +365,36 @@ Issues
             txtBlock.Text = "Your score: " + score + " \n press Esc to quit";
             //animaatio joka siirtaa kanvaasin
             var trs = new TranslateTransform();
-            var anim = new DoubleAnimation(rnd.Next(0, 10), 4000-score, TimeSpan.FromSeconds(18));
+            var anim = new DoubleAnimation(rnd.Next(0, 10), 4000 - score, TimeSpan.FromSeconds(18));
             trs.BeginAnimation(TranslateTransform.XProperty, anim);
             trs.BeginAnimation(TranslateTransform.YProperty, anim);
             pelikentta.RenderTransform = trs;
+            if (score < 4000)
+                Debug.Print(" Pathetic");
+            else if (score < 1000)
+            {
+                Debug.Print(" Good Jobbu");
+            }
+            else if (score > 60000)
+            {
+                Debug.Print(" Oh look who has cheats..");
+            }
             Console.ReadLine();
-           // initmystuff(); //for score test debuging only...
+            // initmystuff(); //for score test debuging only...
         }
         private new void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (timer.IsEnabled)
+            /* Mouse is broken
+             * if (timer.IsEnabled)
                 Ampuu(currentPosition, true);
+            */
         }
         private void MouseDownR(object sender, MouseButtonEventArgs e)
-        {
+        {/* mouse not enabled
             if (timer.IsEnabled)
                 if (ammukset < maxAmmukset)
                 lataaAmmukset();
+        */
         }
         private void Ampuu(Point currentpos, bool valine)
         {
@@ -382,9 +404,7 @@ Issues
             // eli tehdään olio ammuksesta jota voidaan seurata ja paivittaa,
             //(listassa) ja se poistuu kun TTD==0 (vahenee riippuen mihin se tormaa) jolloin se poistetaan
 
-
-
-           // keeping these out of loop
+            // keeping these out of loop
 
             TTD = 3;
             Direction key = suunta(currentpos, currentPosition);
@@ -393,8 +413,8 @@ Issues
             do
             {
 
-           key = suunta(currentpos, currentPosition); // ylikirjotetaan aina..
-                                                                     // pelkistetty ampuminen, ei saa enaa ampua vinottain. // arvot Current position => target position
+                key = suunta(currentpos, currentPosition); // ylikirjotetaan aina..
+                                                           // pelkistetty ampuminen, ei saa enaa ampua vinottain. // arvot Current position => target position
                 if (valine == true)
                 {
                     key = suunta(currentpos, hiiri()); // palauttaa left, right, down, up
@@ -403,7 +423,7 @@ Issues
                 //tarkistetaan minne ollaan ampumassa jos ei tähdätä hiirellä    rtt.Angle = 0; osoittaa alus ylos
                 if (valine == false)
                 { // pelaajan aluksen rotaatiosta
-                  keyb = Convert.ToInt32(rtt.Angle);
+                    keyb = Convert.ToInt32(rtt.Angle);
                     switch (keyb)
                     {
                         case 0:
@@ -471,6 +491,21 @@ Issues
                     // Not implemented yet, because I'm lazy
                     // Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
                     // AmmututAmmukset.Add(t);
+                    switch (key) //POW ja alus lentaa taakse pain
+                    {
+                        case Direction.Up:
+                            currentPosition.Y += 1;
+                            break;
+                        case Direction.Right:
+                            currentPosition.X -= 1;
+                            break;
+                        case Direction.Down:
+                            currentPosition.Y -= 1;
+                            break;
+                        case Direction.Left:
+                            currentPosition.X += 1;
+                            break;
+                    }
                     Line l = new Line();
                     l.Stroke = new SolidColorBrush(Colors.Aqua);
                     l.StrokeThickness = 2.0;
@@ -478,16 +513,16 @@ Issues
                     l.Y1 = currentPosition.Y;
                     l.X2 = currentpos.X; // direction X
                     l.Y2 = currentpos.Y; // direction Y
-                   
                     pelikentta.Children.Add(l);
                     //txtBlock.Text = "Child: " + suunta(currentPosition, hiiri());
-                        tarkistaOsuma(currentpos);
+                    tarkistaOsuma(currentpos);
                     //tahan tulee osumisen tarkistus ammukselle, tama kohta on ammuksen piirron osassa kiinni
                     // tarkistus loppuu
 
-               } } while (hit==false && TTD>0); // && shot == false
-                ammukset--;
-                lataus.Value = ammukset;
+                }
+            } while (hit == false && TTD > 0); // && shot == false
+            ammukset--;
+            lataus.Value = ammukset;
             hit = false;
         }
         private Direction suunta(Point myXY, Point targetXY)
@@ -504,7 +539,7 @@ Issues
         private Point hiiri()
         {
             // PC killer, smelly, code here.
-        Point position = Mouse.GetPosition(pelikentta); //system stack overflow.....
+            Point position = Mouse.GetPosition(pelikentta); //system stack overflow.....
             return position;
         } // jos halutaan tietaa hiiren sijainti
         private void lataaAmmukset()
@@ -527,7 +562,7 @@ Issues
                         TTD--;
                         // syodaan omena
                         score += 10;
-                        Debug.Print(score.ToString());
+                        Debug.Print(score.ToString() + "Debug mode only");
                         //    playerLenght += 10; if i were a snake i would grow
 
                         // nopeutetaan pelia
@@ -542,9 +577,26 @@ Issues
                         PaintBonus(n);
                         break;
                     }
-                 }
+                }
                 n++;
             }
+        }
+        private void kirjoitaListaan()
+
+        { /* NOT implemented
+            using (System.IO.StreamWriter file =
+          new System.IO.StreamWriter(@"C:\Users\Public\TestFolder\WriteLines2.txt"))
+            {
+                foreach (string line in lines)
+                {
+                    // If the line doesn't contain the word 'Second', write the line to the file.
+                    if (!line.Contains("Second"))
+                    {
+                        file.WriteLine(line);
+                    }
+                }
+            }
+            */
         }
     }
 }
