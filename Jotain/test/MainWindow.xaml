@@ -4,16 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="test.MainWindow"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="420" Width="403" ResizeMode="NoResize">
     <Grid RenderTransformOrigin="0.494,0.48">
         <Canvas x:Name="pelikentta"  HorizontalAlignment="Left" Height="346" Margin="35,31,0,0" VerticalAlignment="Top" Width="334" RenderTransformOrigin="0.5,0.5" Background="#FFB68E8E">
-          <!--  <Image x:Name="player"  Height = "24"  Width = "24" 
+          <Image x:Name="player"  Height = "24"  Width = "24" 
                    Source="C:/Users/K8491/Source/Repos/oo_2017/Jotain/test/pictures/player.png"
-                   Canvas.Left="36" Canvas.Top="39">-->
-            <Image x:Name="player"  Height = "24"  Width = "24" Source="E:\olio\ohjelmointi\Jotain\test\pictures\player.png"
                    Canvas.Left="36" Canvas.Top="39">
+              <!--
+            <Image x:Name="player"  Height = "24"  Width = "24" Source="E:\olio\ohjelmointi\Jotain\test\pictures\player.png"
+                   Canvas.Left="36" Canvas.Top="39">-->
                     <Image.LayoutTransform>
                     <RotateTransform x:Name="rtt" CenterX="0.5" CenterY="0.5" Angle="0"/>
                 </Image.LayoutTransform>
