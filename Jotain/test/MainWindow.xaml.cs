@@ -41,7 +41,7 @@ namespace test
 16. HALL OF FLAME, köhöm Tables of deliciousness: Your score > My score = You have more tasty treats. (princess is happy)
 17. Make the princess??
 18. Cake to the loading screen. (wait what loading screen?.. -menu??)
-19. Scoret talletetaan tiedostoon (txt/scv)
+19. Scoret talletetaan tiedostoon (txt/csv)
 
     olioohjelmointia enemman ja koodi kuvaavammaksi.
 
