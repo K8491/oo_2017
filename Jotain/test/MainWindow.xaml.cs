@@ -61,8 +61,10 @@ Issues
     }
     public partial class MainWindow : Window
     {// muista siirtaa peliprojektin alle gittiin
-        //TODO muista laskea kaikkein olioiden raunat, ei vain yksi arvo jostain reunasta vaan koko olio
-        // --||-- vs tormaystarkastus 
+     //TODO muista laskea kaikkein olioiden raunat, ei vain yksi arvo jostain reunasta vaan koko olio
+     // --||-- vs tormaystarkastus 
+        int childCount = 0; // ammukset lentaa eventille
+        int ccChanged = 0;
         private int ammukset = 10;
         private int maxAmmukset = 10;
         private const int minimi = 3;
@@ -78,9 +80,11 @@ Issues
         private List<Line> playerParts = new List<Line>();
         private Point startingPoint = new Point(100, 100);
         private Point currentPosition = new Point();
+        private Point currentLazerPosition = new Point();
         private Direction lastDirection = Direction.Right;
         private Direction currentDirection = Direction.Right;
         private DispatcherTimer timer;
+        private DispatcherTimer ammuksetLentaa;
         private Random rnd = new Random(); // pisteiden arvontaa varten
         //List<Ammus> AmmututAmmukset = new List<Ammus>();
 
@@ -109,6 +113,12 @@ Issues
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
             timer.Tick += new EventHandler(timer_Tick);
+
+            ammuksetLentaa = new DispatcherTimer();
+            ammuksetLentaa.Interval = new TimeSpan(0, 0, 0, 0, easiness);
+            ammuksetLentaa.Tick += new EventHandler(ammuksetLentaa_Tick);
+
+
             // maaritellaan ikkunalle tapahtuman kasittelija nappaimiston kuuntelua varten
             KeyDown += new KeyEventHandler(OnButtonKeyDown);
             MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown);
@@ -118,6 +128,8 @@ Issues
             Paintplayer(startingPoint);
             currentPosition = startingPoint;
 
+            // lasketaan lapset
+            childCount = pelikentta.Children.Count;
             //start game
             timer.Start(); //ikaan kuin loop
         }
@@ -248,6 +260,7 @@ Issues
                     case Key.Space:
                         if (ammukset > 0)
                         {
+                            currentLazerPosition = currentPosition;
                             Ampuu(currentPosition, false);
                         }
                         break;
@@ -281,7 +294,8 @@ Issues
             omenaNRO++;
             */
 
-            label.Content = "Ammukset " + ammukset + "/" + maxAmmukset;
+            //label.Content = "Ammukset " + ammukset + "/" + maxAmmukset;
+            label.Content = ccChanged + "/" + childCount;
             switch (currentDirection)
             {
                 case Direction.Up:
@@ -371,11 +385,11 @@ Issues
             pelikentta.RenderTransform = trs;
             if (score < 4000)
                 Debug.Print(" Pathetic");
-            else if (score < 1000)
+            else if (score < 30000)
             {
                 Debug.Print(" Good Jobbu");
             }
-            else if (score > 60000)
+            else if (score > 30000)
             {
                 Debug.Print(" Oh look who has cheats..");
             }
@@ -403,8 +417,15 @@ Issues
             // loopista ulos ja kutsua päivitystä jolla päivitetään kentällä oleva liikkuva lazeria.
             // eli tehdään olio ammuksesta jota voidaan seurata ja paivittaa,
             //(listassa) ja se poistuu kun TTD==0 (vahenee riippuen mihin se tormaa) jolloin se poistetaan
-
             // keeping these out of loop
+            if (!(ammuksetLentaa.IsEnabled))
+            {
+                ccChanged = childCount;
+                ammuksetLentaa.Start();  //timer ammuksille
+            }else
+            {
+                ammuksetLentaa.Stop();
+            }
 
             TTD = 3;
             Direction key = suunta(currentpos, currentPosition);
@@ -412,14 +433,15 @@ Issues
             // ends--
             do
             {
-
                 key = suunta(currentpos, currentPosition); // ylikirjotetaan aina..
                                                            // pelkistetty ampuminen, ei saa enaa ampua vinottain. // arvot Current position => target position
                 if (valine == true)
                 {
                     key = suunta(currentpos, hiiri()); // palauttaa left, right, down, up
                 }
-                // TODO listataan listaan missa on kaikki ammutut luodit, talla hetkella menevaan vaan pelikentalle
+                // TODO listataan listaan missa on kaikki ammutut luodit
+                // niin etta luoti jatkaa matkaa, (luodin kohde lasketaan uudelleen palakerrallaan)
+
                 //tarkistetaan minne ollaan ampumassa jos ei tähdätä hiirellä    rtt.Angle = 0; osoittaa alus ylos
                 if (valine == false)
                 { // pelaajan aluksen rotaatiosta
@@ -509,22 +531,43 @@ Issues
                     Line l = new Line();
                     l.Stroke = new SolidColorBrush(Colors.Aqua);
                     l.StrokeThickness = 2.0;
-                    l.X1 = currentPosition.X; //luotia tehdessa saadaan tiedot
-                    l.Y1 = currentPosition.Y;
+                    l.X1 = currentLazerPosition.X; //luotia tehdessa saadaan tiedot
+                    l.Y1 = currentLazerPosition.Y;
+                    currentLazerPosition.X = currentpos.X; //luotia tehdessa saadaan tiedot
+                    currentLazerPosition.Y = currentpos.Y;
                     l.X2 = currentpos.X; // direction X
                     l.Y2 = currentpos.Y; // direction Y
                     pelikentta.Children.Add(l);
-                    //txtBlock.Text = "Child: " + suunta(currentPosition, hiiri());
+                    ccChanged++;
+                     //txtBlock.Text = "Child: " + suunta(currentPosition, hiiri());
                     tarkistaOsuma(currentpos);
                     //tahan tulee osumisen tarkistus ammukselle, tama kohta on ammuksen piirron osassa kiinni
                     // tarkistus loppuu
-
+                    ammuksetLentaa.Start();
                 }
             } while (hit == false && TTD > 0); // && shot == false
+          //  pelikentta.Children.RemoveAt(count);
             ammukset--;
             lataus.Value = ammukset;
             hit = false;
         }
+
+        private void ammuksetLentaa_Tick(object sender, EventArgs e)
+        {
+            if (ccChanged > childCount)
+            {
+                pelikentta.Children.RemoveAt(childCount);
+                ccChanged--;
+            }else if(ccChanged == childCount)
+            {
+
+            }else
+            {
+                ammuksetLentaa.Stop();
+            }
+
+        }
+
         private Direction suunta(Point myXY, Point targetXY)
         {
             vSijainti = hiiri(); // tallahetkella klikataan suunta minne mennaan
