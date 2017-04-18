@@ -24,12 +24,11 @@ namespace test
     /// </summary>
 
     /* TODO...
-    6. class ammus  // ei tarvita
     7. calculate the spawn of everything and the locations where they can spwn...
     8. double check 7
     9. Draw more shapes and colors. (bonus if the shape names are delicious and look tasty) 
     12. Take down player name and add insult to the "fail" screen 
-    14. add loading and shooting sounds
+    14. add loading and shooting sounds (change line 93)
 
     olioohjelmointia enemman ja koodi kuvaavammaksi.
 
@@ -90,8 +89,10 @@ namespace test
         private Point vSijainti = new Point(); // hiiren osoittama suunta
         private int TTD = 3; // ammukset ei saa osua liian moneen pisteeseen kerralla #ammuksenpiirtotarkistus 1
         private bool hit = false; // TTD:n  #ammuksenpiirtotarkistus 2
-        //
 
+        // aanet change the sound to lazer and explosion, also change the path from my documents to game install folder..
+        System.Media.SoundPlayer startSoundPlayer = new System.Media.SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\lazer.wav");
+        System.Media.SoundPlayer startSoundExplode = new System.Media.SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\explode.wav");
         //HOF
         Dictionary<string, int> scoreBoard =
          new Dictionary<string, int>();
@@ -133,7 +134,8 @@ namespace test
             childCount = pelikentta.Children.Count;
                          // peli lahtee kayntia
             timer.Start(); //peliloop
-        }
+
+           }
         private void IniBonusPoints()
         {
             for (int n = 0; n < bonusCount; n++)
@@ -323,10 +325,10 @@ namespace test
                 //tarkistetaan ammukset
                 if (ammukset > 0)
                 {
-                                    //ammus on ammuttu ja seuraavaksi tarkistus osuiko, sitten jatketaan matkaa
-          // FIX ME.  Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
-
-                            // piirretaan viiva lazeria esittamaan
+                    //ammus on ammuttu ja seuraavaksi tarkistus osuiko, sitten jatketaan matkaa
+                    // FIX ME.  Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
+                    startSoundPlayer.Play();
+                    // piirretaan viiva lazeria esittamaan
                     Line l = new Line();
                     l.Stroke = new SolidColorBrush(Colors.Aqua);
                     l.StrokeThickness = 2.0;
@@ -434,6 +436,7 @@ namespace test
         }
         private void GameOver()
         {
+            startSoundExplode.Play();
             timer.Stop();
             HOS.Add(Name, score);
             KirjoitaListaan(); // HALL OF SHAME (list of scores).
