@@ -11,8 +11,8 @@
             <!--  <Image x:Name="player"  Height = "24"  Width = "24" 
                    Source="C:/Users/K8491/Source/Repos/oo_2017/Jotain/test/pictures/player.png"
                    Canvas.Left="36" Canvas.Top="39">-->
-           
-            <Image x:Name="player"  Height = "24"  Width = "24" Source="E:\olio\ohjelmointi\Jotain\test\pictures\player.png"
+
+            <Image x:Name="player"  Height = "24"  Width = "24" Source="pack://application:,,,/pictures/player.png"
                    Canvas.Left="36" Canvas.Top="39">
                     <Image.LayoutTransform>
                     <RotateTransform x:Name="rtt" CenterX="0.5" CenterY="0.5" Angle="0"/>
