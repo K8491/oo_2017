@@ -327,7 +327,6 @@ namespace test
                 {
                     //ammus on ammuttu ja seuraavaksi tarkistus osuiko, sitten jatketaan matkaa
                     // FIX ME.  Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
-                    startSoundPlayer.Play();
                     // piirretaan viiva lazeria esittamaan
                     Line l = new Line();
                     l.Stroke = new SolidColorBrush(Colors.Aqua);
@@ -349,6 +348,7 @@ namespace test
             ammukset--;
             lataus.Value = ammukset;
             hit = false;
+            startSoundPlayer.Play();
         }
         private void LataaAmmukset()
         {
@@ -491,6 +491,11 @@ namespace test
                             timer.Stop();
                         else
                             timer.Start();
+
+                        if (ammuksetLentaa.IsEnabled)
+                            ammuksetLentaa.Stop();
+                        else
+                            ammuksetLentaa.Start();
 
                         break;
                     case Key.Escape:
