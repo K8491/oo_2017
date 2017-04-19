@@ -30,12 +30,15 @@ namespace test
     12. Take down player name and add insult to the "fail" screen 
     14. add loading and shooting sounds (change line 93)
 
-        Pistetaan omenat ampumaan lazereita, pelaajaa kohden. (Levelin mukaan vaikaeutta, kun viholliset ampuu takasin enemman?)
+        Pistetaan omenat ampumaan lazereita, pelaajaa kohden. (Levelin mukaan vaikaeutta, kun viholliset paasee ampumaan takasin)
         ja pelaajalle avuksi pommeja.
 
         Ampumis mekaniikka on viela sekava, voisi olla oma methodi vihollisen ampumiselle ja pelaajalle oma.
+        Ampumisessa hyodynnetaan noin 4-5 boolean arvo jotka pitaa saada selkeammaksi.
     olioohjelmointia enemman ja koodi kuvaavammaksi.
-
+    omat luokat toimimaan
+    draw on luokan ominaisuus
+    keskiviikolle kaikki dokumentit valmiina
         */
     public enum Direction
     {
@@ -43,9 +46,10 @@ namespace test
         Right,
         Down,
         Left
-    }
+    } // direction used in shooting(simplified)
     public partial class MainWindow : Window
     {
+        //initialize constants and variables
         #region initstuff
         // pelin rajoituksia (ikkunan koko yms)
         private const int bonusCount = 20; //omenat
@@ -110,10 +114,9 @@ namespace test
         #endregion initstuff
         public MainWindow(string name)
         {
-            Name = name;
+            Name = name; // from window hello
             Initmystuff();
-        }
-
+        }  // gets name of the player.
         public void Initmystuff()
         {
             InitializeComponent();
@@ -146,15 +149,15 @@ namespace test
             // peli lahtee kayntia
             timer.Start(); //peliloop
 
-           }
+           } //initialize starterss, set events to listen.
         private void IniBonusPoints()
         {
             for (int n = 0; n < bonusCount; n++)
             {
-                PaintBonus(n); // piirra osuttavat oliot (vain yksi talla hetkella)
+                PaintBonus(n); // piirra osuttavat oliot (vain yhdentyyppisia talla hetkella)
 
             }
-        }
+        } //aseta bonus pisteen maara
         private void PaintBorder()
         {
             //      maxHeight = 345 - playerWidth;
@@ -193,7 +196,7 @@ namespace test
             l.X1 = 0;
             l.X2 = 0;
             pelikentta.Children.Add(l);
-        }
+        } //piirra reunat
         private void Paintplayer(Point currentpoint)
         {
 
@@ -201,7 +204,7 @@ namespace test
             Canvas.SetLeft(player, currentpoint.X);
 
 
-        }
+        } //piirra pelaaja
         private void PaintBonus(int index)
         {
             // osuttavien tiedot
@@ -223,7 +226,7 @@ namespace test
                 vAmpuu = true;
             }
 
-        }
+        } //piirra ammuttavat
         private Point ArvoPiste(Point point)
         { // might cause crashes when spawning stuff too close
             Point position = point;
@@ -233,11 +236,21 @@ namespace test
 
             } while ((Math.Abs(position.X - point.X + position.Y - point.Y) < 30));
             return point;
-        }
+        } // arvo ammuttavan sijainti
         private void Ampuu(Point currentpos, bool valine, bool ampuu)//Mihin ampuu, milla ampuu, kuka ampuu
         {
-
-             // keeping these out of loop..
+            /*
+             * Hit ollaanko ammuttu
+             * valine kayetaanko hiirta
+             * ampuu, ampuuko pelaaja vai vihollinen
+             * TTD (laskin joka maaraa milloin ammus on osunut x:maaraan kohteita)
+             * ammukset (pelaajan ammukset)
+             * currentpos annetaan kutsuttaessa.. (kertoo sijainnin mista ammutaan).
+             * pelaajan kohde maaraytyy, joko hiiren sijainnin perusteella tai pelkistetysti (aluksesta eteen pain)(ylos,alas,vasen,oikea.)
+             *currentPosition (pelaajan nykyinen sijainti)
+             *  
+             */
+             // liittyy poistoon
             if (!(ammuksetLentaa.IsEnabled))
             {
                 ccChanged = childCount;
@@ -254,7 +267,7 @@ namespace test
                 key = suunta(currentpos, currentPosition); // ylikirjotetaan aina..
                                                            // pelkistetty ampuminen, ei saa enaa ampua vinottain. // arvot Current position => target position
                 if (valine == true)
-                {
+                { // kun ammutaessa kaytetaan hiirta
                     key = suunta(currentpos, hiiri()); // palauttaa left, right, down, up
                 }
 
@@ -352,10 +365,10 @@ namespace test
                     Line l = new Line();
                     l.Stroke = new SolidColorBrush(Colors.Aqua);
                     l.StrokeThickness = 2.0;
-                    l.X1 = currentLazerPosition.X; //luotia tehdessa saadaan tiedot
-                    l.Y1 = currentLazerPosition.Y;
-                    currentLazerPosition.X = currentpos.X; //luotia tehdessa saadaan tiedot
-                    currentLazerPosition.Y = currentpos.Y;
+                    l.X1 = currentpos.X; //luotia tehdessa saadaan tiedot
+                    l.Y1 = currentpos.Y;
+                    currentpos.X = currentpos.X; //luotia tehdessa saadaan tiedot
+                    currentpos.Y = currentpos.Y;
                     l.X2 = currentpos.X; // direction X
                     l.Y2 = currentpos.Y; // direction Y
                     pelikentta.Children.Add(l);
@@ -379,7 +392,8 @@ namespace test
                 ammukset--;
                 lataus.Value = ammukset;
                 hit = false;
-                startSoundPlayer.Play();
+                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\lazer.wav"))
+                    startSoundPlayer.Play();
             }
         }
         private void LataaAmmukset()
@@ -387,7 +401,7 @@ namespace test
             ammukset = maxAmmukset;
             lataus.Value = ammukset;
             label.Content = statusViesti;
-        }
+        } // lataa pelaajan ammukset
         private void TarkistaOsuma(Point currentpos,bool pelaajaAmpuu)
         {
             // tarkistetaan osuuko lazeri kohteeseen
@@ -431,7 +445,7 @@ namespace test
                 }
 
             }
-        }
+        } //tarkistaa osuuko, pelaaja tai vihollinen toisiinsa
         private void MoveBonus(int omenaNRO)
         {
             // arvotaan omenalle piste (X,Y)
@@ -478,17 +492,18 @@ namespace test
             // jos omenat liikkuu yli rajojen.
 
 
-        }
+        } //pistaa ammuttavat liikkeelle
         private void GameOver()
         {
             statusViesti = "Game over";
-            startSoundExplode.Play();
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\explode.wav"))
+                startSoundExplode.Play();
             timer.Stop();
             HOS.Add(Name, score);
             KirjoitaListaan(); // HALL OF SHAME (list of scores).
             GameOverShow();
 
-        }
+        }  //tata kutsuttaessa, peli loppuu. Eli kutsuu loppu tapahtumia
         private void GameOverShow()
         {
             txtBlock.Text = "Your score: " + score + " \n press Esc to quit";
@@ -510,7 +525,7 @@ namespace test
             }
             Console.ReadLine();
             // <- remove for fun!   initmystuff(); //for score test debuging only...
-        }
+        } //Pistaa kameran liikkeelle
         private void KirjoitaListaan()
         {
             try
@@ -524,7 +539,7 @@ namespace test
             {
                 Console.WriteLine("File not found (FileNotFoundException)");
             }
-        }
+        } //score lista (tiedostot kansiossa)
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             // muutetaan suuntaa nappaimiston painalluksen mukaan
@@ -581,7 +596,7 @@ namespace test
                         break;
                 }
             lastDirection = currentDirection;
-        }
+        } //kuuntelee nappain mistoa
         private void timer_Tick(object sender, EventArgs e)
         {
 
@@ -648,7 +663,7 @@ namespace test
                 }
                 n++;
             }
-            statusViesti = "AMM " + ammukset + "/" + maxAmmukset + " hp: " + hp +"/10";
+            statusViesti = "AMM " + ammukset + "/" + maxAmmukset + " hp:" + hp +"/10";
             // hp tarkastus
             if (hp < 1)
             {
@@ -659,7 +674,7 @@ namespace test
         {
             if (ccChanged > childCount)
             {
-                pelikentta.Children.RemoveAt(childCount);
+                pelikentta.Children.RemoveAt(childCount); //kill the lazer
                 ccChanged--;
             }
             else if (ccChanged == childCount)
@@ -685,7 +700,7 @@ namespace test
             suunta = c;
             }
 
-    }*/ // never used, too smelly.
+    }*/ // never used, too smelly. #1
         /*  public class Pelaaja
           {
               public int PelaajaID { get; set; } // ei tarvita useita hahmo listan id, jos vihollisia saadaan peliin
@@ -707,32 +722,31 @@ namespace test
                   PelaajaID = Id;
                   Nimi = nimi;
                   Sijainti = sijainti;
-              }}*/
+              }}*/ //                       #2
+
         // hiiri poissa kaytosta
         private new void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            /* Mouse is broken
-             * if (timer.IsEnabled)
-                Ampuu(currentPosition, true);
-            */
-        }
+            // Mouse is broken
+              if (timer.IsEnabled)
+                Ampuu(currentPosition, true,false);
+            //
+        } //hiiren vasen nappain
         private void MouseDownR(object sender, MouseButtonEventArgs e)
         {/* mouse not enabled
             if (timer.IsEnabled)
                 if (ammukset < maxAmmukset)
                 lataaAmmukset();
         */
-        }
+        } //hiiren oikea nappain
         private Direction suunta(Point myXY, Point targetXY)
         {
             // muunnetaan hiiren osoittama sijainti yksinkertaiseksi suunnaksi
-            if (vAmpuu == false)
-            {
-                vSijainti = hiiri(); // tallahetkella klikataan suunta minne mennaan
-            }else
-            {
-                vSijainti = targetXY;
-            }
+            // ilman hiirta tanne ei tulla, paitsi jos kaannetaan tietyt koord yksinkertaiseksi (vs vihollinen)
+            targetXY = hiiri(); // tallahetkella klikataan suunta minne mennaan
+            if(vAmpuu == true) // vihollinen ampuu pelaajaa pain
+                targetXY = currentPosition;
+            
             double dx = myXY.X - targetXY.X;
             double dy = myXY.Y - targetXY.Y;
             if (Math.Abs(dx) > Math.Abs(dy))
@@ -740,12 +754,12 @@ namespace test
             else
                 direction = (dy > 0) ? Direction.Up : Direction.Down;
             return direction;
-        }
+        } // laskee suunnan kohteeseen
         private Point hiiri()
         {
             // PC killer, smelly, code here.
             Point position = Mouse.GetPosition(pelikentta); //system stack overflow.....
             return position;
-        } // jos halutaan tietaa hiiren sijainti
+        } // jos halutaan tietaa hiiren sijainti ruudulla
     }
 }
