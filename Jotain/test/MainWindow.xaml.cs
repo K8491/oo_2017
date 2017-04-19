@@ -30,6 +30,10 @@ namespace test
     12. Take down player name and add insult to the "fail" screen 
     14. add loading and shooting sounds (change line 93)
 
+        Pistetaan omenat ampumaan lazereita, pelaajaa kohden. (Levelin mukaan vaikaeutta, kun viholliset ampuu takasin enemman?)
+        ja pelaajalle avuksi pommeja.
+
+        Ampumis mekaniikka on viela sekava, voisi olla oma methodi vihollisen ampumiselle ja pelaajalle oma.
     olioohjelmointia enemman ja koodi kuvaavammaksi.
 
         */
@@ -58,16 +62,19 @@ namespace test
         // ammukset lentaa eventille
         int childCount = 0;
         int ccChanged = 0;
-
+        public int Level = 1;
         // pelaaja tiedot
         string Name = "Player"; //sadaan hello ikkunasta
 
-        // pelaajan ammukset
+        // pelaajan ammukset ja hp
         private int ammukset = 10;
         private int maxAmmukset = 10;
+        private int hp = 10;
 
         private int score = 0;
-
+        // vihollisen ammukset
+        bool vAmpuu = false;
+        bool ampuu = false;
         //  olio listat
         private List<Point> bonusPoints = new List<Point>();
         private List<Line> playerParts = new List<Line>();
@@ -89,6 +96,9 @@ namespace test
         private Point vSijainti = new Point(); // hiiren osoittama suunta
         private int TTD = 3; // ammukset ei saa osua liian moneen pisteeseen kerralla #ammuksenpiirtotarkistus 1
         private bool hit = false; // TTD:n  #ammuksenpiirtotarkistus 2
+
+        //status viesti
+       string statusViesti = "Peli alkaa";
 
         // aanet change the sound to lazer and explosion, also change the path from my documents to game install folder..
         System.Media.SoundPlayer startSoundPlayer = new System.Media.SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\lazer.wav");
@@ -132,7 +142,8 @@ namespace test
             // maalataan kerran rajat
             PaintBorder();
             childCount = pelikentta.Children.Count;
-                         // peli lahtee kayntia
+
+            // peli lahtee kayntia
             timer.Start(); //peliloop
 
            }
@@ -205,6 +216,13 @@ namespace test
             pelikentta.Children.Insert(index, omena); //koska me lisätään listassa tiettyyn pisteeseen
             bonusPoints.Insert(index, point);
 
+            if (ammuksetLentaa.IsEnabled) // Nehan ampuu takasin, ainakin jotenkin
+            {
+                currentLazerPosition = new Point(point.X, point.Y);
+                Ampuu(currentLazerPosition, false, true);
+                vAmpuu = true;
+            }
+
         }
         private Point ArvoPiste(Point point)
         { // might cause crashes when spawning stuff too close
@@ -216,10 +234,10 @@ namespace test
             } while ((Math.Abs(position.X - point.X + position.Y - point.Y) < 30));
             return point;
         }
-        private void Ampuu(Point currentpos, bool valine)
+        private void Ampuu(Point currentpos, bool valine, bool ampuu)//Mihin ampuu, milla ampuu, kuka ampuu
         {
 
-                            // keeping these out of loop..
+             // keeping these out of loop..
             if (!(ammuksetLentaa.IsEnabled))
             {
                 ccChanged = childCount;
@@ -230,8 +248,7 @@ namespace test
             }
             TTD = 3;
             Direction key = suunta(currentpos, currentPosition);
-            int keyb = 0;
-                             // ..ends
+            int keyb = 0;              // ..ends
             do
             {               // joka kierros piirtaa yhden osan lazerista.
                 key = suunta(currentpos, currentPosition); // ylikirjotetaan aina..
@@ -245,6 +262,10 @@ namespace test
                 if (valine == false)
                 { 
                     keyb = Convert.ToInt32(rtt.Angle); // pelaajan aluksen rotaatio kaaneetaan directioniksi
+                    if(ampuu == true)
+                    {
+                        suunta(currentpos, currentPosition);
+                    }
                     switch (keyb)
                     {
                         case 0:
@@ -323,7 +344,7 @@ namespace test
 
 
                 //tarkistetaan ammukset
-                if (ammukset > 0)
+                if (ammukset > 0 && ampuu ==false)
                 {
                     //ammus on ammuttu ja seuraavaksi tarkistus osuiko, sitten jatketaan matkaa
                     // FIX ME.  Ammus t = new Ammus(currentPosition, suunta(currentPosition, hiiri()));
@@ -339,54 +360,76 @@ namespace test
                     l.Y2 = currentpos.Y; // direction Y
                     pelikentta.Children.Add(l);
                     ccChanged++; // lazerin haviamista varten oleva laskuri
-                    TarkistaOsuma(currentpos);
+
+                        TarkistaOsuma(currentpos, true);
+  
+
                     // tarkistus loppuu
                     ammuksetLentaa.Start();
                 }
             } while (hit == false && TTD > 0); // && shot == false
-          //  pelikentta.Children.RemoveAt(count);
-            ammukset--;
-            lataus.Value = ammukset;
-            hit = false;
-            startSoundPlayer.Play();
+
+            if (ampuu == true)
+            {
+                TarkistaOsuma(currentpos, false);
+            }
+            else
+            {
+                //  pelikentta.Children.RemoveAt(count);
+                ammukset--;
+                lataus.Value = ammukset;
+                hit = false;
+                startSoundPlayer.Play();
+            }
         }
         private void LataaAmmukset()
         {
             ammukset = maxAmmukset;
             lataus.Value = ammukset;
-            label.Content = "Ammukset " + ammukset + "/" + maxAmmukset; 
+            label.Content = statusViesti;
         }
-        private void TarkistaOsuma(Point currentpos)
+        private void TarkistaOsuma(Point currentpos,bool pelaajaAmpuu)
         {
             // tarkistetaan osuuko lazeri kohteeseen
             int n = 0;
-            foreach (Point point in bonusPoints)
-            {
-                if (TTD > 0)
+            if(pelaajaAmpuu==true)
+            { // else pelaaja ampuu vihollista
+                foreach (Point point in bonusPoints)
                 {
-
-                    if (((Math.Abs(point.X - currentpos.X) < playerWidth) &&
-                       (Math.Abs(point.Y - currentpos.Y) < playerWidth)))
+                    if (TTD > 0)
                     {
-                        TTD--;
-                        score += 10;
-                        //Debug.Print(score.ToString() + "Debug mode only");
-                        //    playerLenght += 10; if i were a snake i would grow more magnificent
 
-                        // nopeutetaan pelia
-                        if (easiness > 5)
+                        if (((Math.Abs(point.X - currentpos.X) < playerWidth) &&
+                           (Math.Abs(point.Y - currentpos.Y) < playerWidth)))
                         {
-                            easiness--;
-                            timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
+                            TTD--;
+                            score += 10;
+                            //Debug.Print(score.ToString() + "Debug mode only");
+                            //    playerLenght += 10; if i were a snake i would grow more magnificent
+
+                            // nopeutetaan pelia
+                            if (easiness > 5)
+                            {
+                                easiness--;
+                                timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
+                            }
+                            Title = Name + " " + score;
+                            bonusPoints.RemoveAt(n);
+                            pelikentta.Children.RemoveAt(n);
+                            PaintBonus(n);
+                            break;
                         }
-                        Title = Name +" "+ score;
-                        bonusPoints.RemoveAt(n);
-                        pelikentta.Children.RemoveAt(n);
-                        PaintBonus(n);
-                        break;
                     }
+                    n++;
                 }
-                n++;
+            }else
+            {
+                if (Math.Abs(currentPosition.X + currentPosition.Y - currentpos.Y - currentpos.X) < 20 && pelaajaAmpuu == false)
+                {
+                    hp--;
+                   // vAmpuu = false;
+                }
+
             }
         }
         private void MoveBonus(int omenaNRO)
@@ -401,25 +444,27 @@ namespace test
             omena.Height = playerWidth * 0.8;
 
             // kaytetaan edellisia x ja y arvoja
-            if (score < 400)
+            if (score < 400*Level)
             {
                 point.X = +bonusPoints[omenaNRO].X + (rnd.Next(-4, 4));
                 point.Y = +bonusPoints[omenaNRO].Y + (rnd.Next(-4, 4));
             }
-            else if (score < 800)
+            else if (score < 800*Level)
             {
                 point.X = +bonusPoints[omenaNRO].X - (rnd.Next(-4, 4));
                 point.Y = +bonusPoints[omenaNRO].Y - (rnd.Next(-4, 4));
             }
-            else if (score < 2000)
+            else if (score < 1400*Level)
             {
-                point.X = +bonusPoints[omenaNRO].X + (rnd.Next(-4, 4));
-                point.Y = +bonusPoints[omenaNRO].Y - (rnd.Next(-4, 4));
+                point.X = +bonusPoints[omenaNRO].X - (rnd.Next(-4, 4));
+                point.Y = +bonusPoints[omenaNRO].Y + (rnd.Next(-4, 4));
             }
             else
             {
-                point.X = +bonusPoints[omenaNRO].X - (rnd.Next(-4, 4));
-                point.Y = +bonusPoints[omenaNRO].Y + (rnd.Next(-4, 4));
+                point.X = +bonusPoints[omenaNRO].X + (rnd.Next(-4, 4));
+                point.Y = +bonusPoints[omenaNRO].Y - (rnd.Next(-4, 4));
+                if (score > 1800 * Level)
+                    Level+=5;
             }
             // poistetaan edellinen piirros
             pelikentta.Children.RemoveAt(omenaNRO);
@@ -436,6 +481,7 @@ namespace test
         }
         private void GameOver()
         {
+            statusViesti = "Game over";
             startSoundExplode.Play();
             timer.Stop();
             HOS.Add(Name, score);
@@ -512,7 +558,7 @@ namespace test
                         if (ammukset > 0)
                         {
                             currentLazerPosition = currentPosition;
-                            Ampuu(currentPosition, false);
+                            Ampuu(currentLazerPosition, false, false);
                         }
                         break;
                     case Key.Left:
@@ -538,13 +584,12 @@ namespace test
         }
         private void timer_Tick(object sender, EventArgs e)
         {
+
             for (int p=0; p < bonusCount ; p++)
             {
                 MoveBonus(p);
             }
-
-
-            label.Content = "Ammukset " + ammukset + "/" + maxAmmukset;
+            label.Content = statusViesti;
             switch (currentDirection)
             {
                 case Direction.Up:
@@ -602,6 +647,12 @@ namespace test
                     break;
                 }
                 n++;
+            }
+            statusViesti = "AMM " + ammukset + "/" + maxAmmukset + " hp: " + hp +"/10";
+            // hp tarkastus
+            if (hp < 1)
+            {
+                GameOver();
             }
         } // pelin paa ajastin
         private void ammuksetLentaa_Tick(object sender, EventArgs e)
@@ -675,7 +726,13 @@ namespace test
         private Direction suunta(Point myXY, Point targetXY)
         {
             // muunnetaan hiiren osoittama sijainti yksinkertaiseksi suunnaksi
-            vSijainti = hiiri(); // tallahetkella klikataan suunta minne mennaan
+            if (vAmpuu == false)
+            {
+                vSijainti = hiiri(); // tallahetkella klikataan suunta minne mennaan
+            }else
+            {
+                vSijainti = targetXY;
+            }
             double dx = myXY.X - targetXY.X;
             double dy = myXY.Y - targetXY.Y;
             if (Math.Abs(dx) > Math.Abs(dy))
