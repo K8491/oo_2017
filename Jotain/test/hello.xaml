@@ -7,9 +7,10 @@
         mc:Ignorable="d"
         Title="hello" Height="300" Width="300">
     <Grid>
-        <Label x:Name="label" Content="Nimi" HorizontalAlignment="Left" Margin="31,26,0,0" VerticalAlignment="Top" Width="222"/>
+        <Label x:Name="label" Content="Name yer ship" HorizontalAlignment="Left" Margin="31,26,0,0" VerticalAlignment="Top" Width="222"/>
         <TextBox x:Name="txtB" Text="" HorizontalAlignment="Left" Margin="31,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" Background="#FFAC8181"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="38,117,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button" Content="GAME ON!" HorizontalAlignment="Left" Margin="38,117,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="31,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="106" Width="232"><Run Text="Peli luo txt tiedoston"/><Run Text=" (HOS)"/><Run Text=" (tietokoneen kayttajan tiedostot(documents) kansioon"/><LineBreak/><Run Text="(lukekaa tarkemmin githubista (K8491/PeliProjekti)"/><LineBreak/><Run Text="Liikutaan"/><Run FontWeight="Bold" Text=" nuolilla"/><Run Text=", ladataan "/><Run FontWeight="Bold" Text="R"/><Run Text=", ammutaan "/><Run FontWeight="Bold" Text="SPACE"/><Run Text=" ja pause "/><Run FontWeight="Bold" Text="P"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
 
     </Grid>
 </Window>

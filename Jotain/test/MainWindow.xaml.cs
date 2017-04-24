@@ -83,7 +83,12 @@ namespace test
         // vihollisen ammukset
         bool vAmpuu = false;
         bool ampuu = false;
+        
+        // onko aanet
         bool hasSounds = false;
+        // isGameOver
+        bool isGameOver = false;
+
         //  olio listat
         private List<Point> bonusPoints = new List<Point>();
         private List<Line> playerParts = new List<Line>();
@@ -522,7 +527,6 @@ namespace test
                                 easiness--;
                                 timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
                             }
-                            Title = Name + " " + score;
                             bonusPoints.RemoveAt(n);
                             pelikentta.Children.RemoveAt(n);
                             PaintBonus(n);
@@ -588,6 +592,7 @@ namespace test
         } //pistaa ammuttavat liikkeelle
         private void GameOver()
         {
+            isGameOver = true;
             statusViesti = "Game over";
             if (hasSounds == true)
                 startSoundExplode.Play();
@@ -637,15 +642,23 @@ namespace test
         {
             // muutetaan suuntaa nappaimiston painalluksen mukaan
             // mutta ei sallita 180 asteen kaannosta
+            if (isGameOver == true)
+                this.Close();
+
             if (timer.IsEnabled || e.Key == Key.P || e.Key == Key.Escape)
                 switch (e.Key)
                 {
                     case Key.P:
                         if (timer.IsEnabled)
+                        {
                             timer.Stop();
+                            txtBlock.Text = "PAUSE";
+                        }
                         else
+                        {
                             timer.Start();
-
+                            txtBlock.Text = "";
+                        }
                         if (ammuksetLentaa.IsEnabled)
                             ammuksetLentaa.Stop();
                         else
@@ -691,7 +704,7 @@ namespace test
         } //kuuntelee nappain mistoa
         private void timer_Tick(object sender, EventArgs e)
         {
-
+            Title = "Shuttle v1.0 " + Name + " " + score;
             for (int p=0; p < bonusCount ; p++)
             {
                 MoveBonus(p);
@@ -747,7 +760,6 @@ namespace test
                         easiness = 1;
                         score += 10;
                     }
-                    Title = Name + " " + score;
                     bonusPoints.RemoveAt(n);
                     pelikentta.Children.RemoveAt(n);
                     PaintBonus(n);
