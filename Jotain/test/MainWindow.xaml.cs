@@ -88,6 +88,8 @@ namespace test
         bool hasSounds = false;
         // isGameOver
         bool isGameOver = false;
+        // onko peli alkanut
+        bool isGameOn = false;
 
         //  olio listat
         private List<Point> bonusPoints = new List<Point>();
@@ -163,8 +165,6 @@ namespace test
                 hasSounds = true;
             }
 
-            // peli lahtee kayntia
-            timer.Start(); //peliloop
 
            } //initialize starterss, set events to listen.
         private void IniBonusPoints()
@@ -640,6 +640,14 @@ namespace test
         } //score lista (tiedostot kansiossa)
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
+
+            if (!(timer.IsEnabled && isGameOn==false && isGameOver == false))
+            {
+                // peli lahtee kayntia
+                timer.Start(); //peliloop
+                isGameOn = true;
+            }
+
             // muutetaan suuntaa nappaimiston painalluksen mukaan
             // mutta ei sallita 180 asteen kaannosta
             if (isGameOver == true)
