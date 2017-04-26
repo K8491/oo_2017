@@ -723,7 +723,7 @@ namespace test
             }        
         private void timer_Tick(object sender, EventArgs e)
         {
-            Title = "Shuttle v1.0 " + Name + " " + score;
+            Title = "Shuttle v1.0 " + Name + " " + score +" L: "+Level;
             for (int p=0; p < bonusCount ; p++)
             {
                 MoveBonus(p);

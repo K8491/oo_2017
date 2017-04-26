@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
-        Title="hello" Height="300" Width="300">
+        Title="Hello" Height="300" Width="300">
     <Grid>
         <Label x:Name="label" Content="Name yer ship" HorizontalAlignment="Left" Margin="31,26,0,0" VerticalAlignment="Top" Width="222"/>
         <TextBox x:Name="txtB" Text="" HorizontalAlignment="Left" Margin="31,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" Background="#FFAC8181"/>
