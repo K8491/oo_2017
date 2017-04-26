@@ -51,7 +51,7 @@ namespace test
         Right,
         Down,
         Left
-    } // direction used in shooting(simplified)
+    } //Moving the ship and in shooting(simplified)
     public partial class MainWindow : Window
     {
         //initialize constants and variables
@@ -69,8 +69,8 @@ namespace test
         private DispatcherTimer ammuksetLentaa;
 
         // ammukset lentaa eventille
-        int childCount = 0;
-        int ccChanged = 0;
+        int childCount = 0; //count of children at start of the game (neede when deleting lazers)
+        int ccChanged = 0; // child count changed
         public int Level = 1; // muuttaa mista ammuttavat lentelee
         // pelaaja tiedot
         string Name = "Player"; //sadaan hello ikkunasta
@@ -82,8 +82,8 @@ namespace test
 
         private int score = 0;
         // vihollisen ammukset
-        bool vAmpuu = false;
-        bool ampuu = false;
+     //   bool vAmpuu = false; // created for code which have not been implemented fully.
+        bool ampuu = false; //Who shoots. (false = pelaaja)
         
         // onko aanet
         bool hasSounds = false;
@@ -121,7 +121,7 @@ namespace test
         System.Media.SoundPlayer startSoundPlayer = new System.Media.SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\lazer.wav");
         System.Media.SoundPlayer startSoundExplode = new System.Media.SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\sounds\explode.wav");
 
-        //HOF
+        //HOF sijaitsee tiedostot kansiossa
         Dictionary<string, int> scoreBoard =
          new Dictionary<string, int>();
         // dictionary.Add( string(Pelaaja ID), INT(pisteet));
@@ -139,25 +139,26 @@ namespace test
             timer.Interval = new TimeSpan(0, 0, 0, 0, easiness);
             timer.Tick += new EventHandler(timer_Tick);
 
+            //Kun ammuksia lahtee lentelemaan, toimii talla hetkella ammusten poistamiseen vahan sen jalkeen kun ammuttu
             ammuksetLentaa = new DispatcherTimer();
             ammuksetLentaa.Interval = new TimeSpan(0, 0, 0, 0, easiness);
             ammuksetLentaa.Tick += new EventHandler(ammuksetLentaa_Tick);
 
 
-                         // maaritellaan ikkunalle tapahtuman kasittelija nappaimiston kuuntelua varten
+            // maaritellaan ikkunalle tapahtuman kasittelija nappaimiston kuuntelua varten
             KeyDown += new KeyEventHandler(OnButtonKeyDown);
             MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown);
             MouseRightButtonDown += new MouseButtonEventHandler(MouseDownR);
 
-                         // piirretaan osuttavat pisteet ja pelaaja
+            // piirretaan osuttavat pisteet ja pelaaja
             IniBonusPoints();
             Paintplayer(startingPoint);
             currentPosition = startingPoint;
 
-                // lasketaan lapset (pelikentalla pakosti olevat, auttaa lazerien poistossa
+            // maalataan kerran rajat
+            PaintBorder();
 
-                // maalataan kerran rajat
-                PaintBorder();
+            // lasketaan lapset (pelikentalla pakosti olevat, auttaa lazerien poistossa)
             childCount = pelikentta.Children.Count;
 
             // onko aanet kaytossa
