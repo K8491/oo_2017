@@ -164,9 +164,10 @@ namespace test
             {
                 hasSounds = true;
             }
+            // ohje pelaajalle
+            txtBlock.Text = "Press arrow-key to play, shoot with space";
 
-
-           } //initialize starterss, set events to listen.
+        } //initialize starterss, set events to listen.
         private void IniBonusPoints()
         {
             for (int n = 0; n < bonusCount; n++)
@@ -596,6 +597,7 @@ namespace test
             statusViesti = "Game over";
             if (hasSounds == true)
                 startSoundExplode.Play();
+
             timer.Stop();
             HOS.Add(Name, score);
             KirjoitaListaan(); // HALL OF SHAME (list of scores).
@@ -641,26 +643,57 @@ namespace test
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
 
-            if (!(timer.IsEnabled && isGameOn==false && isGameOver == false))
+
+
+            if (timer.IsEnabled==false && isGameOn == false && isGameOver == false) // Kaynnistaa pelin pelaajalle, kun pelaaja aloittaa ohjelman painamalla jotakin nappainta
             {
                 // peli lahtee kayntia
                 timer.Start(); //peliloop
                 isGameOn = true;
+                txtBlock.Text = "";
             }
 
             // muutetaan suuntaa nappaimiston painalluksen mukaan
             // mutta ei sallita 180 asteen kaannosta
-            if (isGameOver == true)
-                this.Close();
-
-            if (timer.IsEnabled || e.Key == Key.P || e.Key == Key.Escape)
+            // paussin aikana ei saa ampua tai liikkua
+            if (isGameOn==true)
+            {
                 switch (e.Key)
                 {
+ 
+                    case Key.R:
+                        if (ammukset < maxAmmukset && timer.IsEnabled)
+                            LataaAmmukset();
+                        break;
+                    case Key.Space:
+                        if (ammukset > 0 && timer.IsEnabled)
+                        {
+                            Ampuu(currentPosition, false, false);
+                        }
+                        break;
+                    case Key.Left:
+                        if (lastDirection != Direction.Right && timer.IsEnabled)
+                            currentDirection = Direction.Left;
+                        break;
+
+                    case Key.Up:
+                        if (lastDirection != Direction.Down && timer.IsEnabled)
+                            currentDirection = Direction.Up;
+                        break;
+
+                    case Key.Right:
+                        if (lastDirection != Direction.Left && timer.IsEnabled)
+                            currentDirection = Direction.Right;
+                        break;
+                    case Key.Down:
+                        if (lastDirection != Direction.Up && timer.IsEnabled)
+                            currentDirection = Direction.Down;
+                        break;
                     case Key.P:
                         if (timer.IsEnabled)
                         {
                             timer.Stop();
-                            txtBlock.Text = "PAUSE";
+                            txtBlock.Text = "Press P to unpause";
                         }
                         else
                         {
@@ -669,47 +702,24 @@ namespace test
                         }
                         if (ammuksetLentaa.IsEnabled)
                             ammuksetLentaa.Stop();
-                        else
-                            ammuksetLentaa.Start();
-
                         break;
                     case Key.Escape:
                         if (timer.IsEnabled)
-                            GameOver();
-                        else
-                            this.Close();
-                        break;
-                    case Key.R:
-                        if (ammukset < maxAmmukset)
-                            LataaAmmukset();
-                        break;
-                    case Key.Space:
-                        if (ammukset > 0)
                         {
-                            Ampuu(currentPosition, false, false);
+                            timer.Stop();
+                        }
+                        else
+                        {
+                            this.Close();
                         }
                         break;
-                    case Key.Left:
-                        if (lastDirection != Direction.Right)
-                            currentDirection = Direction.Left;
-                        break;
-
-                    case Key.Up:
-                        if (lastDirection != Direction.Down)
-                            currentDirection = Direction.Up;
-                        break;
-
-                    case Key.Right:
-                        if (lastDirection != Direction.Left)
-                            currentDirection = Direction.Right;
-                        break;
-                    case Key.Down:
-                        if (lastDirection != Direction.Up)
-                            currentDirection = Direction.Down;
-                        break;
                 }
-            lastDirection = currentDirection;
-        } //kuuntelee nappain mistoa
+
+                lastDirection = currentDirection;
+            }
+            }
+            
+
         private void timer_Tick(object sender, EventArgs e)
         {
             Title = "Shuttle v1.0 " + Name + " " + score;
