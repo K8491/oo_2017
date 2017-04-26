@@ -24,6 +24,7 @@ namespace test
     /// </summary>
 
     /* TODO...
+     * Make the lazer drawing slow and delete lazer right after -> fixes the spam lazer lag delete problem
     7. calculate the spawn of everything and the locations where they can spwn...
     8. double check 7
     9. Draw more shapes and colors. (bonus if the shape names are delicious and look tasty) 
@@ -707,6 +708,7 @@ namespace test
                         if (timer.IsEnabled)
                         {
                             timer.Stop();
+                            txtBlock.Text = "Press ESC again to RAGE quit";
                         }
                         else
                         {
@@ -717,9 +719,7 @@ namespace test
 
                 lastDirection = currentDirection;
             }
-            }
-            
-
+            }        
         private void timer_Tick(object sender, EventArgs e)
         {
             Title = "Shuttle v1.0 " + Name + " " + score;
@@ -823,7 +823,7 @@ namespace test
             suunta = c;
             }
 
-    }*/ // never used, too smelly. #1
+    }*/   // never used, too smelly. #1
         /*  public class Pelaaja
           {
               public int PelaajaID { get; set; } // ei tarvita useita hahmo listan id, jos vihollisia saadaan peliin
